@@ -10,10 +10,12 @@ from config import FASTAPI_HOST, FASTAPI_PORT, ADMIN_USERNAME, ADMIN_PASSWORD
 from database import init_db
 from models import (
     ProductResponse, ProductCreate, CategorySummary,
-    AdminLoginRequest, AdminLoginResponse, ExcelUploadResponse
+    AdminLoginRequest, AdminLoginResponse, ExcelUploadResponse,
+    ChatQueryRequest, ChatQueryResponse, PolicySource
 )
 from excel_service import parse_stock_excel
 import repository as repo
+from rag_service import get_rag_engine
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("akki_backend")
@@ -188,6 +190,90 @@ async def upload_stock_excel(file: UploadFile = File(...)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to process Excel file: {str(e)}"
         )
+
+# ==============================================================================
+# COMPANY PRIVATE CHATBOT (RAG) ENDPOINTS
+# ==============================================================================
+
+@app.post("/api/chat/message", response_model=ChatQueryResponse, tags=["Company Chatbot (RAG)"])
+def chat_message(req: ChatQueryRequest):
+    """
+    Query the internal company policy RAG system.
+    Returns grounded answers from data/policies (Attendance, HR, Leave) with citations.
+    """
+    try:
+        engine = get_rag_engine()
+        history_list = [{"role": m.role, "content": m.content} for m in req.history] if req.history else []
+        result = engine.answer_query(
+            query=req.query,
+            conversation_history=history_list,
+            api_key=req.api_key,
+            model=req.model
+        )
+        sources = [
+            PolicySource(
+                document=s["document"],
+                page=s["page"],
+                section=s.get("section", ""),
+                label=s["label"]
+            )
+            for s in result.get("sources", [])
+        ]
+        return ChatQueryResponse(
+            answer=result["answer"],
+            sources=sources,
+            success=result.get("success", True),
+            using_llm=result.get("using_llm", False),
+            error=result.get("error")
+        )
+    except Exception as e:
+        logger.error(f"Error handling chat query: {e}")
+        return ChatQueryResponse(
+            answer=f"Error processing policy query: {str(e)}",
+            sources=[],
+            success=False,
+            using_llm=False,
+            error=str(e)
+        )
+
+@app.get("/api/chat/policies", tags=["Company Chatbot (RAG)"])
+def list_policies():
+    """Retrieve list of active company policy documents and chunking metrics."""
+    engine = get_rag_engine()
+    docs_summary = {}
+    for c in engine.chunks:
+        if c.source not in docs_summary:
+            docs_summary[c.source] = {"pages": set(), "chunks_count": 0}
+        docs_summary[c.source]["pages"].add(c.page)
+        docs_summary[c.source]["chunks_count"] += 1
+
+    formatted_docs = [
+        {
+            "document": doc,
+            "total_pages": len(info["pages"]),
+            "chunks_count": info["chunks_count"]
+        }
+        for doc, info in docs_summary.items()
+    ]
+
+    return {
+        "status": "ready" if engine.chunks else "empty",
+        "total_documents": len(formatted_docs),
+        "total_chunks": len(engine.chunks),
+        "has_vector_embeddings": engine.embeddings is not None,
+        "documents": formatted_docs
+    }
+
+@app.post("/api/chat/reindex", tags=["Company Chatbot (RAG)"])
+def reindex_policies(api_key: Optional[str] = None):
+    """Trigger re-indexing of policy documents in data/policies/."""
+    engine = get_rag_engine()
+    success = engine.build_index(api_key=api_key, force_reindex=True)
+    return {
+        "success": success,
+        "total_chunks": len(engine.chunks),
+        "has_embeddings": engine.embeddings is not None
+    }
 
 if __name__ == "__main__":
     import uvicorn

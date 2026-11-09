@@ -32,6 +32,14 @@ Full-stack E-Commerce Application inspired by **Flipkart** UI aesthetics, built 
   - Live MySQL database inventory table with search and filtering.
 - **Shopping Cart**:
   - Real-time cart state with price calculations, total discount breakdown, and free delivery checkout.
+- **AKKI User Guide (Customer Shopping Assistant & Catalog Navigator)**:
+  - Floating widget pinned at the **right-bottom** corner across all pages (`🛍️ AKKI User Guide`).
+  - Helps customers search available fashion products, 38+ subcategories, fabrics, and pricing.
+  - Ingests customer guides and catalogs from `data/policies/` (`akki_customer_guide.pdf` & `product_catalog_guide.md`).
+  - Powered by OpenAI Paid LLMs (`gpt-4o-mini`, `gpt-4o`) and embeddings (`text-embedding-3-small`).
+  - Answers questions on Free Delivery, Cash on Delivery (COD), 7-day replacement assurance, and ordering steps.
+  - Multi-turn conversation memory, quick-prompt FAQ chips for instant product search.
+  - Dedicated FastAPI RAG endpoints: `POST /api/chat/message`, `GET /api/chat/policies`, `POST /api/chat/reindex`.
 
 ---
 
@@ -45,6 +53,7 @@ Full-stack E-Commerce Application inspired by **Flipkart** UI aesthetics, built 
 | **Excel Processing** | `pandas`, `openpyxl` |
 | **Data Validation** | `pydantic` v2 |
 | **Frontend Framework** | [Streamlit](https://streamlit.io/) with custom Flipkart CSS |
+| **GenAI & RAG Engine** | OpenAI (`gpt-4o-mini`, `gpt-4o`, `text-embedding-3-small`), `pypdf`, `numpy` |
 | **Server** | `uvicorn` ASGI Server |
 
 ---
@@ -80,11 +89,17 @@ FASTAPI_AKKI_COLLECTIONS/
 ├── database.py           # MySQL connection and schema initialization
 ├── models.py             # Pydantic models for API requests/responses
 ├── excel_service.py      # Stock Excel parser & image URL extractor
+├── rag_service.py        # Enterprise GenAI RAG engine for company policies
 ├── repository.py         # MySQL CRUD, search, filter, and upsert operations
-├── main.py               # FastAPI backend with RESTful endpoints
-├── streamlit_app.py      # Streamlit Flipkart-styled frontend
+├── main.py               # FastAPI backend with RESTful & RAG endpoints
+├── streamlit_app.py      # Streamlit Flipkart-styled frontend with floating chatbot
+├── .env                  # Environment variables & OpenAI API Key
 ├── data/
-│   └── stock_entry.xlsx  # Reference inventory spreadsheet
+│   ├── stock_entry.xlsx  # Reference inventory spreadsheet
+│   └── policies/         # Company policy documents (.pdf, .txt, .md)
+│       ├── attendance_policy.pdf
+│       ├── hr_policy.pdf
+│       └── leave_policy.pdf
 ├── requirements.txt      # Python dependencies
 └── README.md             # Documentation
 ```

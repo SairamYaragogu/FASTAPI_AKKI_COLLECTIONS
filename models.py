@@ -57,3 +57,28 @@ class ExcelUploadResponse(BaseModel):
     inserted_count: int
     updated_count: int
     total_records: int
+
+
+# Chatbot & RAG Models
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+class ChatQueryRequest(BaseModel):
+    query: str
+    history: Optional[List[ChatMessage]] = Field(default_factory=list)
+    api_key: Optional[str] = None
+    model: Optional[str] = None
+
+class PolicySource(BaseModel):
+    document: str
+    page: int
+    section: Optional[str] = ""
+    label: str
+
+class ChatQueryResponse(BaseModel):
+    answer: str
+    sources: List[PolicySource] = Field(default_factory=list)
+    success: bool
+    using_llm: bool
+    error: Optional[str] = None
