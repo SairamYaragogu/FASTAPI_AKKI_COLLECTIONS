@@ -31,6 +31,8 @@ if "cart" not in st.session_state:
     st.session_state.cart = []
 if "selected_image_index" not in st.session_state:
     st.session_state.selected_image_index = 0
+if "admin_table_page" not in st.session_state:
+    st.session_state.admin_table_page = 0
 
 # Custom CSS for Authentic Flipkart Aesthetics
 st.markdown("""
@@ -278,6 +280,171 @@ st.markdown("""
         padding: 20px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.07);
         margin-bottom: 20px;
+    }
+
+    /* Cart Items & Container Elevation */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        padding: 16px 20px !important;
+        margin-bottom: 16px !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    /* Fixed uniform image wrapper for cart items */
+    .cart-img-wrapper {
+        width: 100%;
+        height: 140px;
+        min-height: 140px;
+        max-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #f1f5f9;
+    }
+
+    .cart-item-img {
+        max-width: 100%;
+        max-height: 140px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .cart-img-wrapper:hover .cart-item-img {
+        transform: scale(1.05);
+    }
+
+    /* Fallback in case st.image is rendered in container */
+    div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stImage"] {
+        height: 140px !important;
+        max-height: 140px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f8fafc !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        border: 1px solid #f1f5f9 !important;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stImage"] img {
+        max-height: 140px !important;
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+        margin: auto !important;
+    }
+
+    /* Cart Item Typography & Elements with Uniform Row Heights */
+    .cart-item-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #212121;
+        margin-bottom: 4px;
+        line-height: 1.35;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .cart-item-meta {
+        font-size: 12px;
+        color: #878787;
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 18px;
+    }
+
+    .cart-item-delivery {
+        font-size: 12px;
+        color: #26a541;
+        font-weight: 500;
+        margin-top: 6px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Price Details Card Styling */
+    .price-details-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #878787;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 12px;
+    }
+
+    .price-breakdown-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        color: #212121;
+        margin-bottom: 10px;
+    }
+
+    .price-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 17px;
+        font-weight: 700;
+        color: #212121;
+        padding-top: 10px;
+        margin-top: 10px;
+        border-top: 1px dashed #e0e0e0;
+        margin-bottom: 12px;
+    }
+
+    .saving-badge {
+        background: #e8f5e9;
+        color: #2e7d32;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 14px;
+    }
+
+    /* Remove button styling inside cart cards */
+    div[data-testid="stVerticalBlockBorderWrapper"] button[data-testid="baseButton-secondary"],
+    div[data-testid="stVerticalBlockBorderWrapper"] button[kind="secondary"] {
+        border: 1px solid #e0e0e0 !important;
+        color: #64748b !important;
+        font-weight: 500 !important;
+        border-radius: 4px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"] button[data-testid="baseButton-secondary"]:hover,
+    div[data-testid="stVerticalBlockBorderWrapper"] button[kind="secondary"]:hover {
+        border-color: #d32f2f !important;
+        color: #d32f2f !important;
+        background-color: #fff5f5 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -551,7 +718,7 @@ with col_search:
     search_val = st.text_input(
         "Search",
         value=st.session_state.search_query,
-        placeholder="🔍 Search for Sarees, Dress Materials, Kurtis, Silk and more...",
+        placeholder="🔍 Search for Sarees, Dress Materials, Cotton and more...",
         label_visibility="collapsed",
         key="search_input"
     )
@@ -591,7 +758,6 @@ if st.session_state.current_page == "admin":
         st.info("Please sign in with Admin credentials to upload stock data and manage inventory.")
         login_col1, login_col2, login_col3 = st.columns([1, 1.5, 1])
         with login_col2:
-            st.markdown("<div class='admin-card'>", unsafe_allow_html=True)
             st.subheader("Admin Login")
             u_name = st.text_input("Username", value="admin")
             u_pwd = st.text_input("Password", type="password", value="admin123")
@@ -607,7 +773,6 @@ if st.session_state.current_page == "admin":
                         st.error(data.get("message", "Invalid credentials."))
                 else:
                     st.error("Authentication failed. Please verify FastAPI backend.")
-            st.markdown("</div>", unsafe_allow_html=True)
     else:
         # Authenticated Admin Dashboard
         admin_top_col1, admin_top_col2 = st.columns([3, 1])
@@ -622,14 +787,12 @@ if st.session_state.current_page == "admin":
         stats_res = fetch_api("/api/stats")
         if stats_res and stats_res.status_code == 200:
             stats = stats_res.json()
-            s_col1, s_col2, s_col3, s_col4 = st.columns(4)
+            s_col1, s_col2, s_col3 = st.columns(3)
             s_col1.metric("📦 Total Products", stats.get("total_products", 0))
             s_col2.metric("🏷️ Categories", stats.get("total_categories", 0))
             s_col3.metric("📑 Subcategories", stats.get("total_subcategories", 0))
-            s_col4.metric("💰 Avg Price", f"₹{stats.get('avg_price', 0):,.2f}")
 
         # Excel Upload Section
-        st.markdown("<div class='admin-card'>", unsafe_allow_html=True)
         st.subheader("📤 Upload Stock Entry Excel File (`stock_entry.xlsx`)")
         st.write("Upload your product catalog spreadsheet. The system will automatically read and update MySQL database inventory in real-time.")
         
@@ -642,21 +805,168 @@ if st.session_state.current_page == "admin":
                     upload_res = fetch_api("/api/admin/upload-excel", method="POST", files=files)
                     if upload_res and upload_res.status_code == 200:
                         res_data = upload_res.json()
+                        st.session_state.admin_table_page = 0
                         st.success(f"✅ {res_data.get('message')}")
                     else:
                         detail = upload_res.json().get("detail") if upload_res else "Unknown error"
                         st.error(f"❌ Upload failed: {detail}")
-        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Current Database Inventory Table
-        st.subheader("📋 Current MySQL Product Inventory")
+        # Current Database Inventory Table / Graphical View
+        head_col1, head_col2 = st.columns([3, 1.2], vertical_alignment="center")
+        with head_col1:
+            st.subheader("📋 Current MySQL Product Inventory")
+        with head_col2:
+            show_graphical = st.toggle("📊 Graphical View", value=False, key="toggle_admin_graphical_view")
+
         all_prods_res = fetch_api("/api/products", data={"limit": 500})
         if all_prods_res and all_prods_res.status_code == 200:
             prods = all_prods_res.json()
             if prods:
                 import pandas as pd
-                df_view = pd.DataFrame(prods)[["id", "sno", "category", "subcategory", "title", "price", "mrp", "discount_pct", "rating", "stock_status"]]
-                st.dataframe(df_view, use_container_width=True, height=350)
+                cols = ["sno", "category", "subcategory", "title", "price", "mrp", "discount_pct", "rating", "stock_status"]
+                df_all = pd.DataFrame(prods)
+                display_cols = [c for c in cols if c in df_all.columns]
+                df_view = df_all[display_cols]
+
+                if not show_graphical:
+                    # TABULAR VIEW (Existing functionality preserved)
+                    # Pagination: 10 records per page
+                    PAGE_SIZE = 10
+                    total_records = len(df_view)
+                    total_pages = max(1, (total_records + PAGE_SIZE - 1) // PAGE_SIZE)
+
+                    # Ensure current page is within valid bounds
+                    if st.session_state.admin_table_page >= total_pages:
+                        st.session_state.admin_table_page = total_pages - 1
+                    if st.session_state.admin_table_page < 0:
+                        st.session_state.admin_table_page = 0
+
+                    curr_page = st.session_state.admin_table_page
+                    start_idx = curr_page * PAGE_SIZE
+                    end_idx = min(start_idx + PAGE_SIZE, total_records)
+
+                    df_page = df_view.iloc[start_idx:end_idx]
+                    st.dataframe(df_page, hide_index=True, use_container_width=True)
+
+                    # Pagination Controls: Prev & Next buttons at the bottom of the table
+                    c_prev, c_info, c_next = st.columns([1, 2, 1])
+                    with c_prev:
+                        if st.button("⬅️ Previous", disabled=(curr_page == 0), key="btn_admin_prev", use_container_width=True):
+                            st.session_state.admin_table_page = max(0, curr_page - 1)
+                            st.rerun()
+                    with c_info:
+                        st.markdown(
+                            f"<div style='text-align: center; padding-top: 6px; font-weight: 500; font-size: 14px;'>"
+                            f"Page {curr_page + 1} of {total_pages} &nbsp;|&nbsp; Showing {start_idx + 1}–{end_idx} of {total_records} records"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
+                    with c_next:
+                        if st.button("Next ➡️", disabled=(curr_page >= total_pages - 1), key="btn_admin_next", use_container_width=True):
+                            st.session_state.admin_table_page = min(total_pages - 1, curr_page + 1)
+                            st.rerun()
+                else:
+                    # GRAPHICAL VIEW (Matplotlib Charts)
+                    import matplotlib.pyplot as plt
+                    import numpy as np
+
+                    # Convert numerical columns safely
+                    df_chart = df_all.copy()
+                    df_chart['price'] = pd.to_numeric(df_chart['price'], errors='coerce').fillna(0)
+                    df_chart['mrp'] = pd.to_numeric(df_chart['mrp'], errors='coerce').fillna(0)
+                    df_chart['rating'] = pd.to_numeric(df_chart['rating'], errors='coerce').fillna(0)
+                    df_chart['discount_pct'] = pd.to_numeric(df_chart['discount_pct'], errors='coerce').fillna(0)
+
+                    # Chart Palette
+                    primary_color = "#2874f0"
+                    secondary_color = "#ff9f00"
+                    success_color = "#388e3c"
+                    palette = ["#2874f0", "#ff9f00", "#388e3c", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899"]
+
+                    g_col1, g_col2 = st.columns(2)
+
+                    # Chart 1: Product Count by Category
+                    with g_col1:
+                        fig1, ax1 = plt.subplots(figsize=(6, 4))
+                        cat_counts = df_chart['category'].value_counts()
+                        bars1 = ax1.bar(cat_counts.index, cat_counts.values, color=palette[:len(cat_counts)], edgecolor='none', width=0.55)
+                        ax1.set_title("📦 Product Count by Category", fontsize=13, fontweight='bold', pad=12)
+                        ax1.set_ylabel("Number of Products", fontsize=11)
+                        ax1.grid(axis='y', linestyle='--', alpha=0.3)
+                        ax1.spines['top'].set_visible(False)
+                        ax1.spines['right'].set_visible(False)
+                        ax1.tick_params(axis='x', rotation=15)
+                        for bar in bars1:
+                            yval = bar.get_height()
+                            ax1.text(bar.get_x() + bar.get_width() / 2, yval + 0.3, int(yval), ha='center', va='bottom', fontsize=10, fontweight='bold')
+                        plt.tight_layout()
+                        st.pyplot(fig1, use_container_width=True)
+                        plt.close(fig1)
+
+                    # Chart 2: Average Selling Price vs MRP by Category
+                    with g_col2:
+                        fig2, ax2 = plt.subplots(figsize=(6, 4))
+                        price_grp = df_chart.groupby('category')[['price', 'mrp']].mean().reset_index()
+                        x = np.arange(len(price_grp))
+                        width = 0.35
+                        rects1 = ax2.bar(x - width/2, price_grp['price'], width, label='Selling Price', color=primary_color)
+                        rects2 = ax2.bar(x + width/2, price_grp['mrp'], width, label='MRP', color=secondary_color)
+                        ax2.set_title("💰 Avg Price vs MRP by Category (₹)", fontsize=13, fontweight='bold', pad=12)
+                        ax2.set_xticks(x)
+                        ax2.set_xticklabels(price_grp['category'], rotation=15)
+                        ax2.set_ylabel("Price (₹)", fontsize=11)
+                        ax2.grid(axis='y', linestyle='--', alpha=0.3)
+                        ax2.spines['top'].set_visible(False)
+                        ax2.spines['right'].set_visible(False)
+                        ax2.legend(frameon=False)
+                        for rect in rects1:
+                            h = rect.get_height()
+                            ax2.text(rect.get_x() + rect.get_width() / 2, h + 50, f"₹{h:,.0f}", ha='center', va='bottom', fontsize=8, rotation=0)
+                        plt.tight_layout()
+                        st.pyplot(fig2, use_container_width=True)
+                        plt.close(fig2)
+
+                    g_col3, g_col4 = st.columns(2)
+
+                    # Chart 3: Category Inventory Share (Donut Chart)
+                    with g_col3:
+                        fig3, ax3 = plt.subplots(figsize=(6, 4))
+                        cat_counts = df_chart['category'].value_counts()
+                        wedges, texts, autotexts = ax3.pie(
+                            cat_counts.values,
+                            labels=cat_counts.index,
+                            autopct='%1.1f%%',
+                            startangle=140,
+                            colors=palette[:len(cat_counts)],
+                            wedgeprops=dict(width=0.45, edgecolor='white', linewidth=2)
+                        )
+                        for at in autotexts:
+                            at.set_fontsize(9)
+                            at.set_fontweight('bold')
+                        ax3.set_title("🥧 Inventory Share by Category", fontsize=13, fontweight='bold', pad=12)
+                        plt.tight_layout()
+                        st.pyplot(fig3, use_container_width=True)
+                        plt.close(fig3)
+
+                    # Chart 4: Average Customer Rating by Category
+                    with g_col4:
+                        fig4, ax4 = plt.subplots(figsize=(6, 4))
+                        rating_grp = df_chart.groupby('category')['rating'].mean().reset_index()
+                        bars4 = ax4.bar(rating_grp['category'], rating_grp['rating'], color=success_color, width=0.55)
+                        ax4.set_title("⭐ Customer Rating by Category", fontsize=13, fontweight='bold', pad=12)
+                        ax4.set_ylabel("Average Rating (Out of 5)", fontsize=11)
+                        ax4.set_ylim(0, 5.5)
+                        ax4.axhline(y=4.0, color='gray', linestyle=':', alpha=0.6, label='4.0 Baseline')
+                        ax4.grid(axis='y', linestyle='--', alpha=0.3)
+                        ax4.spines['top'].set_visible(False)
+                        ax4.spines['right'].set_visible(False)
+                        ax4.tick_params(axis='x', rotation=15)
+                        for bar in bars4:
+                            yval = bar.get_height()
+                            ax4.text(bar.get_x() + bar.get_width() / 2, yval + 0.1, f"{yval:.2f} ★", ha='center', va='bottom', fontsize=9, fontweight='bold')
+                        plt.tight_layout()
+                        st.pyplot(fig4, use_container_width=True)
+                        plt.close(fig4)
             else:
                 st.warning("No products found in database. Upload stock_entry.xlsx above to populate.")
 
@@ -667,11 +977,12 @@ if st.session_state.current_page == "admin":
 # PAGE 2: CART VIEW
 # ==============================================================================
 elif st.session_state.current_page == "cart":
-    st.markdown("### 🛒 Flipkart Style Shopping Cart")
+    st.markdown("### 🛒 Shopping Cart")
     if not st.session_state.cart:
-        st.info("Your shopping cart is empty! Browse our saree and dress collections to add items.")
-        if st.button("🛍️ Shop Now", type="primary"):
-            navigate_to("home")
+        with st.container(border=True):
+            st.info("Your shopping cart is empty! Browse our saree and dress collections to add items.")
+            if st.button("🛍️ Shop Now", type="primary"):
+                navigate_to("home")
     else:
         cart_left, cart_right = st.columns([2.2, 1])
         total_mrp = 0
@@ -679,40 +990,77 @@ elif st.session_state.current_page == "cart":
         
         with cart_left:
             for idx, item in enumerate(st.session_state.cart):
-                st.markdown("<div class='admin-card'>", unsafe_allow_html=True)
-                c1, c2, c3 = st.columns([1, 2.5, 1])
-                with c1:
-                    st.image(item.get("primary_image"), use_container_width=True)
-                with c2:
-                    st.markdown(f"**{item.get('title')}**")
-                    st.caption(f"Category: {item.get('category')} | Fabric: {item.get('subcategory')}")
-                    price = item.get('price', 0)
-                    mrp = item.get('mrp', price * 1.5)
-                    st.markdown(f"<span class='selling-price'>₹{price:,.0f}</span> <span class='mrp-price'>₹{mrp:,.0f}</span> <span class='discount-pct'>{item.get('discount_pct', 35)}% off</span>", unsafe_allow_html=True)
-                    st.caption("Delivery by Tomorrow | Free ₹40")
-                with c3:
-                    if st.button("Remove", key=f"del_cart_{idx}"):
-                        st.session_state.cart.pop(idx)
-                        st.rerun()
-                st.markdown("</div>", unsafe_allow_html=True)
+                with st.container(border=True):
+                    c1, c2, c3 = st.columns([1, 2.5, 0.9], vertical_alignment="center")
+                    with c1:
+                        img_url = item.get("primary_image")
+                        if not img_url and item.get("image_urls"):
+                            img_url = item["image_urls"][0]
+                        if not img_url:
+                            img_url = "https://res.cloudinary.com/dh96id3hk/image/upload/v1757262322/146691a5-d2a3-4bf8-9835-afa771aa532f_vcxodf.jpg"
+                        st.markdown(
+                            f"""
+                            <div class="cart-img-wrapper">
+                                <img src="{img_url}" alt="{item.get('title', 'Product')}" class="cart-item-img" onerror="this.onerror=null;this.src='https://res.cloudinary.com/dh96id3hk/image/upload/v1757262322/146691a5-d2a3-4bf8-9835-afa771aa532f_vcxodf.jpg';">
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+                    with c2:
+                        st.markdown(f"<div class='cart-item-title' title='{item.get('title', '')}'>{item.get('title', '')}</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='cart-item-meta'>Category: {item.get('category', 'Fashion')} | Fabric: {item.get('subcategory', 'General')}</div>", unsafe_allow_html=True)
+                        price = item.get('price', 0)
+                        mrp = item.get('mrp', price * 1.5)
+                        st.markdown(f"<div class='price-row'><span class='selling-price'>₹{price:,.0f}</span> <span class='mrp-price'>₹{mrp:,.0f}</span> <span class='discount-pct'>{item.get('discount_pct', 35)}% off</span></div>", unsafe_allow_html=True)
+                        st.markdown("<div class='cart-item-delivery'>Delivery by Tomorrow | <span style='color: #388e3c; font-weight: 600;'>Free ₹40</span></div>", unsafe_allow_html=True)
+                    with c3:
+                        if st.button("Remove", key=f"del_cart_{idx}", use_container_width=True):
+                            st.session_state.cart.pop(idx)
+                            st.rerun()
                 total_selling += item.get("price", 0)
                 total_mrp += item.get("mrp", item.get("price", 0) * 1.5)
 
         with cart_right:
-            st.markdown("<div class='admin-card'>", unsafe_allow_html=True)
-            st.subheader("PRICE DETAILS")
-            st.markdown("<hr style='margin: 8px 0;'>", unsafe_allow_html=True)
-            st.write(f"Price ({len(st.session_state.cart)} items): **₹{total_mrp:,.0f}**")
-            total_discount = total_mrp - total_selling
-            st.write(f"Discount: <span style='color: #388e3c;'>**- ₹{total_discount:,.0f}**</span>", unsafe_allow_html=True)
-            st.write("Delivery Charges: <span style='color: #388e3c;'>**FREE**</span>", unsafe_allow_html=True)
-            st.markdown("<hr style='margin: 8px 0;'>", unsafe_allow_html=True)
-            st.markdown(f"### Total Amount: ₹{total_selling:,.0f}")
-            st.caption(f"You will save ₹{total_discount:,.0f} on this order 🌟")
-            if st.button("⚡ PLACE ORDER", type="primary", use_container_width=True):
-                st.success("🎉 Order Placed Successfully! Thank you for shopping with AKKI LATEST COLLECTIONS.")
-                st.session_state.cart = []
-            st.markdown("</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<div class='price-details-title'>PRICE DETAILS</div>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<div class='price-breakdown-row'>"
+                    f"<span>Price ({len(st.session_state.cart)} items)</span>"
+                    f"<span><b>₹{total_mrp:,.0f}</b></span>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+                total_discount = total_mrp - total_selling
+                st.markdown(
+                    f"<div class='price-breakdown-row'>"
+                    f"<span>Discount</span>"
+                    f"<span style='color: #388e3c;'><b>- ₹{total_discount:,.0f}</b></span>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+                st.markdown(
+                    f"<div class='price-breakdown-row'>"
+                    f"<span>Delivery Charges</span>"
+                    f"<span style='color: #388e3c;'><b>FREE</b></span>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+                st.markdown(
+                    f"<div class='price-total-row'>"
+                    f"<span>Total Amount</span>"
+                    f"<span>₹{total_selling:,.0f}</span>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+                st.markdown(
+                    f"<div class='saving-badge'>🌟 You will save ₹{total_discount:,.0f} on this order</div>",
+                    unsafe_allow_html=True
+                )
+                if st.button("⚡ PLACE ORDER", type="primary", use_container_width=True):
+                    st.success("🎉 Order Placed Successfully! Thank you for shopping with AKKI LATEST COLLECTIONS.")
+                    st.session_state.cart = []
+                if st.button("← Continue Shopping", use_container_width=True):
+                    navigate_to("home")
 
 # ==============================================================================
 # PAGE 3: FLIPKART STYLE PRODUCT DETAILS PAGE
@@ -1005,6 +1353,6 @@ else:
 
 st.markdown("""
 <div style="text-align: center; color: #878787; font-size: 12px; margin-top: 40px; padding: 20px 0; border-top: 1px solid #e0e0e0;">
-    <b>AKKI LATEST COLLECTIONS</b> © 2026. Built with Python, FastAPI, MySQL & Streamlit with Flipkart Aesthetic UI.
+    <b>AKKI LATEST COLLECTIONS</b> © 2026. Built with Python, FastAPI, MySQL & Streamlit UI.
 </div>
 """, unsafe_allow_html=True)

@@ -119,7 +119,7 @@ def get_products(
 
         where_clause = " WHERE " + " AND ".join(conditions) if conditions else ""
 
-        order_clause = " ORDER BY id ASC"
+        order_clause = " ORDER BY CASE WHEN sno IS NULL THEN 1 ELSE 0 END, sno ASC, id ASC"
         if sort_by == "price_asc":
             order_clause = " ORDER BY price ASC"
         elif sort_by == "price_desc":
@@ -150,22 +150,59 @@ def get_product_by_id(product_id: int) -> Optional[dict]:
     finally:
         conn.close()
 
-def bulk_upsert_products(product_list: List[dict]) -> Tuple[int, int]:
-    """Upserts a list of product dictionaries into the database."""
+def bulk_upsert_products(product_list: List[dict], sync_mode: bool = False) -> Tuple[int, int]:
+    """
+    Upserts a list of product dictionaries into the database.
+    If sync_mode is True, table is cleared and repopulated strictly from the uploaded list.
+    """
     conn = get_connection()
     inserted = 0
     updated = 0
     try:
         cursor = conn.cursor(dictionary=True)
+        if sync_mode:
+            cursor.execute("TRUNCATE TABLE products")
+            for item in product_list:
+                img_json = serialize_images(item.get("image_urls", []))
+                primary_img = item.get("primary_image")
+                if not primary_img and item.get("image_urls"):
+                    primary_img = item["image_urls"][0]
+
+                insert_sql = """
+                INSERT INTO products (
+                    sno, category, subcategory, title, description,
+                    price, mrp, discount_pct, rating, reviews_count,
+                    image_urls, primary_image, stock_status
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                cursor.execute(insert_sql, (
+                    item.get("sno"),
+                    item.get("category"),
+                    item.get("subcategory"),
+                    item.get("title"),
+                    item.get("description"),
+                    item.get("price"),
+                    item.get("mrp"),
+                    item.get("discount_pct", 0),
+                    item.get("rating", 4.3),
+                    item.get("reviews_count", 120),
+                    img_json,
+                    primary_img,
+                    item.get("stock_status", "In Stock")
+                ))
+                inserted += 1
+
+            conn.commit()
+            return inserted, 0
+
         for item in product_list:
             sno = item.get("sno")
-            # Check by sno or by title + category
+            # If sno is present, match strictly by sno to prevent different products with the same title from overwriting
             existing = None
             if sno is not None:
                 cursor.execute("SELECT id FROM products WHERE sno = %s", (sno,))
                 existing = cursor.fetchone()
-
-            if not existing and item.get("title") and item.get("category"):
+            elif item.get("title") and item.get("category"):
                 cursor.execute("SELECT id FROM products WHERE title = %s AND category = %s", (item["title"], item["category"]))
                 existing = cursor.fetchone()
 

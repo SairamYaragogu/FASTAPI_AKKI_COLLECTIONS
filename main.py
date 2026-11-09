@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI):
             if os.path.exists(stock_path):
                 logger.info(f"Auto-seeding initial inventory from {stock_path}...")
                 products = parse_stock_excel(stock_path)
-                ins, upd = repo.bulk_upsert_products(products)
+                ins, upd = repo.bulk_upsert_products(products, sync_mode=True)
                 logger.info(f"Auto-seed completed: {ins} inserted, {upd} updated.")
     except Exception as e:
         logger.error(f"Error during startup initialization: {e}")
@@ -166,7 +166,7 @@ async def upload_stock_excel(file: UploadFile = File(...)):
                 detail="No valid product rows could be extracted from the file."
             )
 
-        inserted, updated = repo.bulk_upsert_products(products)
+        inserted, updated = repo.bulk_upsert_products(products, sync_mode=True)
 
         # Also backup/save uploaded file to data/stock_entry.xlsx
         data_dir = os.path.join(os.path.dirname(__file__), "data")
@@ -177,7 +177,7 @@ async def upload_stock_excel(file: UploadFile = File(...)):
 
         return ExcelUploadResponse(
             success=True,
-            message=f"Stock data updated successfully: {inserted} new items added, {updated} existing items refreshed.",
+            message=f"Stock data updated successfully: {inserted} products loaded from uploaded file.",
             inserted_count=inserted,
             updated_count=updated,
             total_records=len(products)
