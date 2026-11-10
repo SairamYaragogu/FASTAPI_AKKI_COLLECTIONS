@@ -726,6 +726,20 @@ st.markdown("""
         opacity: 1 !important;
     }
 
+    /* Completely hide 'Press Enter to submit form' helper tag */
+    div[data-testid="stPopoverBody"] [data-testid="InputInstructions"],
+    div[data-testid="stPopoverBody"] div[data-testid="InputInstructions"],
+    div[data-testid="stPopoverBody"] span[data-testid="InputInstructions"],
+    div[data-testid="InputInstructions"],
+    [data-testid="InputInstructions"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        pointer-events: none !important;
+    }
+
     /* Send button inside form */
     div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="primary"],
     div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="secondary"],
