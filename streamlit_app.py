@@ -16,14 +16,15 @@ if adv_rag_dir not in sys.path:
 
 try:
     from retrieve import retrieve_documents
-    from openai_service import generate_answer
+    from openai_service import generate_answer, evaluate_answer
 except Exception:
     try:
         from adv_rag.retrieve import retrieve_documents
-        from adv_rag.openai_service import generate_answer
+        from adv_rag.openai_service import generate_answer, evaluate_answer
     except Exception:
         retrieve_documents = None
         generate_answer = None
+        evaluate_answer = None
 
 # Set page configuration with Flipkart blue theme icon
 st.set_page_config(
@@ -1801,10 +1802,14 @@ def render_ask_akki_chatbot():
                 with st.spinner("Akki is thinking..."):
                     try:
                         if retrieve_documents and generate_answer:
-                            res = retrieve_documents(query_to_process)
+                            res = retrieve_documents(query_to_process, verbose=True)
                             chunks = res.get("chunks", [])
-                            raw_answer = generate_answer(query_to_process, chunks)
+                            raw_answer = generate_answer(query_to_process, chunks, verbose=True)
                             answer = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", raw_answer, flags=re.IGNORECASE).strip()
+                            
+                            # Advanced RAG Step 7: Answer Evaluation Technique (RAG Triad)
+                            if evaluate_answer:
+                                evaluate_answer(query_to_process, chunks, answer, verbose=True)
                         else:
                             answer = "Advanced RAG module could not be loaded."
                     except Exception as e:
