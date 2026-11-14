@@ -4,7 +4,26 @@ import streamlit.components.v1 as components
 import requests
 import json
 import io
+import os
+import sys
+import re
 from config import BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD
+
+# Advanced RAG integration
+adv_rag_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "adv_rag")
+if adv_rag_dir not in sys.path:
+    sys.path.insert(0, adv_rag_dir)
+
+try:
+    from retrieve import retrieve_documents
+    from openai_service import generate_answer
+except Exception:
+    try:
+        from adv_rag.retrieve import retrieve_documents
+        from adv_rag.openai_service import generate_answer
+    except Exception:
+        retrieve_documents = None
+        generate_answer = None
 
 # Set page configuration with Flipkart blue theme icon
 st.set_page_config(
@@ -33,6 +52,17 @@ if "selected_image_index" not in st.session_state:
     st.session_state.selected_image_index = 0
 if "admin_table_page" not in st.session_state:
     st.session_state.admin_table_page = 0
+if "akki_chat_history" not in st.session_state:
+    st.session_state.akki_chat_history = [
+        {
+            "role": "assistant",
+            "content": "👋 **Welcome to Ask Akki!**\n\nI am your personal AI shopping assistant for **AKKI LATEST COLLECTIONS** (like Eva for Flipkart/HDFC).\n\nYou can ask me anything about:\n- 🥻 **Sarees Collection** (Banarasi, Soft Silk, Kanjivaram, Chanderi, Cotton & more)\n- 👗 **Dress Materials & Suit Sets** (Chanderi, Bandhani, Jamdani, Cotton)\n- ✨ **Ready-to-Wear Dresses & Gowns**\n- 🚚 **100% Free Shipping, Cash on Delivery (COD) & 7-Day Replacement Policy**\n- 📦 **Order Tracking & Support Helpline**\n\nHow can I help you today?",
+            "sources": [],
+            "chunks": []
+        }
+    ]
+if "pending_akki_query" not in st.session_state:
+    st.session_state.pending_akki_query = None
 
 # Custom CSS for Authentic Flipkart Aesthetics
 st.markdown("""
@@ -445,6 +475,316 @@ st.markdown("""
         border-color: #d32f2f !important;
         color: #d32f2f !important;
         background-color: #fff5f5 !important;
+    }
+
+    /* =========================================================================
+       FLOATING RIGHT-BOTTOM "ASK AKKI" CHATBOT (LIKE ASK EVA)
+       ========================================================================= */
+    div[data-testid="stElementContainer"]:has(div[data-testid="stPopover"]),
+    div[data-testid="element-container"]:has(div[data-testid="stPopover"]),
+    div.element-container:has(.stPopover) {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: fit-content !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+
+    div[data-testid="stPopover"],
+    .stPopover {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: fit-content !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+    }
+
+    div[data-testid="stPopover"] > button,
+    .stPopover > button,
+    div[data-testid="stPopover"] button[data-testid="baseButton-secondary"],
+    div[data-testid="stPopover"] button[kind="secondary"] {
+        position: relative !important;
+        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
+        color: #ffffff !important;
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        padding: 12px 24px !important;
+        border-radius: 50px !important;
+        border: 2px solid #ffffff !important;
+        box-shadow: 0 6px 22px rgba(40, 116, 240, 0.48) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        cursor: pointer !important;
+        margin: 0 !important;
+        float: right !important;
+        transition: all 0.25s ease-in-out !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    div[data-testid="stPopover"] > button:hover,
+    .stPopover > button:hover {
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 10px 28px rgba(40, 116, 240, 0.65) !important;
+        background: linear-gradient(135deg, #1b62d8 0%, #0d429a 100%) !important;
+        color: #ffffff !important;
+        border-color: #ffffff !important;
+    }
+
+    div[data-testid="stPopoverBody"] {
+        width: 480px !important;
+        min-width: 380px !important;
+        max-width: 95vw !important;
+        height: 670px !important;
+        max-height: 86vh !important;
+        border-radius: 16px !important;
+        box-shadow: 0 20px 55px rgba(0, 0, 0, 0.28) !important;
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        padding: 16px !important;
+        overflow-y: auto !important;
+        z-index: 9999999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    div[data-testid="stPopoverBody"] > div[data-testid="stVerticalBlock"],
+    div[data-testid="stPopoverBody"] > div.stVerticalBlock,
+    div[data-testid="stPopoverBody"] > div:first-child {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        min-height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Sticky top header inside chat window */
+    .chat-sticky-header {
+        position: sticky !important;
+        top: -16px !important;
+        background: #ffffff !important;
+        z-index: 99 !important;
+        padding: 2px 0 8px 0 !important;
+        margin-bottom: 4px !important;
+    }
+
+    /* Top bar gradient matching bottom button */
+    .chat-top-banner {
+        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
+        color: #ffffff !important;
+        padding: 13px 16px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 16px rgba(40, 116, 240, 0.35) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .chat-online-badge {
+        background: #10b981 !important;
+        color: #ffffff !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        padding: 3px 9px !important;
+        border-radius: 20px !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    /* Flex spacer ensuring input box is always pushed to bottom */
+    div[data-testid="stElementContainer"]:has(.chat-flex-spacer),
+    .chat-flex-spacer {
+        flex: 1 1 auto !important;
+        min-height: 16px !important;
+    }
+
+    /* Fixed/Sticky bottom input text area pinned to the bottom */
+    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"]:has(form[data-testid="stForm"]),
+    div[data-testid="stPopoverBody"] div.element-container:has(form),
+    div[data-testid="stPopoverBody"] div:has(> form[data-testid="stForm"]) {
+        margin-top: auto !important;
+        position: sticky !important;
+        bottom: -16px !important;
+        background: #ffffff !important;
+        z-index: 99 !important;
+        padding: 10px 0 2px 0 !important;
+        border-top: 1px solid #e2e8f0 !important;
+        width: 100% !important;
+    }
+
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        padding: 6px 8px !important;
+        margin: 0 !important;
+    }
+
+    /* Clean styling for popover body text and dark-mode safety */
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] p,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] li,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] span,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] strong,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] b,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] div,
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessageContent"] * {
+        color: #1e293b !important;
+    }
+
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 10px 14px !important;
+        margin-bottom: 10px !important;
+    }
+
+    div[data-testid="stPopoverBody"] [data-testid="stChatMessageAvatar"],
+    div[data-testid="stPopoverBody"] .stChatMessageAvatar {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    div[data-testid="stPopoverBody"] button[kind="secondary"],
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"],
+    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button {
+        background-color: #f8fafc !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        font-size: 13px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div[data-testid="stPopoverBody"] button[kind="secondary"] p,
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"] p,
+    div[data-testid="stPopoverBody"] button[kind="secondary"] span,
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"] span,
+    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button p,
+    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button span {
+        color: #1e293b !important;
+        font-weight: 500 !important;
+    }
+
+    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover,
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover {
+        background-color: #eff6ff !important;
+        border-color: #2874f0 !important;
+        box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover p,
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover p,
+    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover span,
+    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover span {
+        color: #1e40af !important;
+    }
+
+    div[data-testid="stPopoverBody"] div[data-testid="stTextInputRootElement"],
+    div[data-testid="stPopoverBody"] div[data-testid="stTextInputRootElement"] > div,
+    div[data-testid="stPopoverBody"] div[data-testid="stTextInput"] > div > div {
+        background-color: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-testid="stPopoverBody"] input[data-testid="stTextInputRootElement"],
+    div[data-testid="stPopoverBody"] input[type="text"],
+    div[data-testid="stPopoverBody"] input {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        font-size: 14px !important;
+        -webkit-text-fill-color: #0f172a !important;
+    }
+
+    div[data-testid="stPopoverBody"] input::placeholder {
+        color: #64748b !important;
+        -webkit-text-fill-color: #64748b !important;
+        opacity: 1 !important;
+    }
+
+    div[data-testid="stPopoverBody"] [data-testid="InputInstructions"],
+    div[data-testid="stPopoverBody"] div[data-testid="InputInstructions"],
+    div[data-testid="stPopoverBody"] span[data-testid="InputInstructions"],
+    div[data-testid="InputInstructions"],
+    [data-testid="InputInstructions"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        pointer-events: none !important;
+    }
+
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="primary"],
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="secondary"],
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button {
+        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+    }
+
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button p,
+    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button span {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+
+    .chat-top-title,
+    div[data-testid="stPopoverBody"] .chat-top-title,
+    div[data-testid="stPopoverBody"] [data-testid="stMarkdownContainer"] .chat-top-title {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    .chat-top-subtitle,
+    div[data-testid="stPopoverBody"] .chat-top-subtitle,
+    div[data-testid="stPopoverBody"] [data-testid="stMarkdownContainer"] .chat-top-subtitle {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-size: 11px !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.2px !important;
+        margin-top: 4px !important;
+    }
+
+    .policy-source-chip {
+        display: inline-block;
+        background: #eff6ff;
+        color: #1e40af;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid #bfdbfe;
+        margin-right: 5px;
+        margin-top: 4px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1356,4 +1696,130 @@ st.markdown("""
     <b>AKKI LATEST COLLECTIONS</b> © 2026. Built with Python, FastAPI, MySQL & Streamlit UI.
 </div>
 """, unsafe_allow_html=True)
+
+
+# ==============================================================================
+# FLOATING RIGHT-BOTTOM "ASK AKKI" AI ASSISTANT (ADVANCED RAG + OPENAI)
+# ==============================================================================
+def render_ask_akki_chatbot():
+    """Renders the fixed bottom-right 'Ask Akki' AI Shopping Assistant widget (styled like 'Ask Eva')."""
+    col_spacer, col_bot = st.columns([8, 2])
+    with col_bot:
+        with st.popover("💬 Ask Akki", use_container_width=False):
+            # 1. Sticky Header Bar with Title Banner
+            st.markdown("""
+            <div class="chat-sticky-header">
+                <div class="chat-top-banner">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 20px;">🛍️</span>
+                            <span class="chat-top-title">Ask Akki</span>
+                        </div>
+                        <span class="chat-online-badge">● ONLINE</span>
+                    </div>
+                    <div class="chat-top-subtitle">
+                        AI Personal Shopping Assistant & Store Guide
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # 2. Frequently Asked Questions (Quick Chips)
+            st.markdown("<div style='font-size: 11px; font-weight: 600; color: #64748b; margin: 6px 0 4px 0;'>💡 Frequently Asked Questions:</div>", unsafe_allow_html=True)
+            q1, q2 = st.columns(2)
+            with q1:
+                if st.button("🥻 Saree Varieties?", key="akki_quick_q1", use_container_width=True):
+                    st.session_state.pending_akki_query = "What saree varieties, fabrics, and subcategories are available in your collection?"
+            with q2:
+                if st.button("👗 Dress Materials?", key="akki_quick_q2", use_container_width=True):
+                    st.session_state.pending_akki_query = "What types of unstitched dress materials and suit sets do you offer?"
+            
+            q3, q4 = st.columns(2)
+            with q3:
+                if st.button("✨ Ready Dresses?", key="akki_quick_q3", use_container_width=True):
+                    st.session_state.pending_akki_query = "What ready-to-wear dresses, Anarkali suits, and gowns are available?"
+            with q4:
+                if st.button("🚚 Delivery & Returns?", key="akki_quick_q4", use_container_width=True):
+                    st.session_state.pending_akki_query = "What are the shipping charges, delivery times, and 7-day replacement policies?"
+
+            q5, q6 = st.columns(2)
+            with q5:
+                if st.button("💳 COD & Payments?", key="akki_quick_q5", use_container_width=True):
+                    st.session_state.pending_akki_query = "What payment options and Cash on Delivery (COD) terms are supported?"
+            with q6:
+                if st.button("🗑️ Clear Chat", key="akki_clear_chat", use_container_width=True):
+                    st.session_state.akki_chat_history = [
+                        {
+                            "role": "assistant",
+                            "content": "👋 Chat reset! How can I assist you with AKKI LATEST COLLECTIONS today?",
+                            "sources": [],
+                            "chunks": []
+                        }
+                    ]
+                    st.rerun()
+
+            st.markdown("<hr style='margin: 8px 0; border: none; border-top: 1px solid #f1f5f9;'>", unsafe_allow_html=True)
+
+            # 3. Clean Chat Message History
+            for msg in st.session_state.akki_chat_history:
+                with st.chat_message(msg["role"], avatar="🧑‍💼" if msg["role"] == "user" else "🛍️"):
+                    clean_content = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", msg["content"], flags=re.IGNORECASE).strip()
+                    st.markdown(clean_content)
+
+            # Flexible spacer ensuring input box is always pushed to bottom
+            st.markdown('<div class="chat-flex-spacer"></div>', unsafe_allow_html=True)
+
+            # 4. Sticky Bottom Input Form (Fixed at the bottom of the popover view)
+            with st.form("akki_chat_form", clear_on_submit=True):
+                in_c1, in_c2 = st.columns([3.8, 1.2])
+                with in_c1:
+                    user_text = st.text_input(
+                        "Ask question:",
+                        placeholder="Ask Akki...",
+                        label_visibility="collapsed",
+                        key="akki_user_input_field"
+                    )
+                with in_c2:
+                    submitted = st.form_submit_button("Send 🚀", use_container_width=True)
+
+            # 5. Query Processing
+            query_to_process = None
+            if submitted and user_text and user_text.strip():
+                query_to_process = user_text.strip()
+            elif st.session_state.pending_akki_query:
+                query_to_process = st.session_state.pending_akki_query
+                st.session_state.pending_akki_query = None
+
+            if query_to_process:
+                st.session_state.akki_chat_history.append({
+                    "role": "user",
+                    "content": query_to_process,
+                    "sources": [],
+                    "chunks": []
+                })
+                
+                with st.spinner("Akki is thinking..."):
+                    try:
+                        if retrieve_documents and generate_answer:
+                            res = retrieve_documents(query_to_process)
+                            chunks = res.get("chunks", [])
+                            raw_answer = generate_answer(query_to_process, chunks)
+                            answer = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", raw_answer, flags=re.IGNORECASE).strip()
+                        else:
+                            answer = "Advanced RAG module could not be loaded."
+                    except Exception as e:
+                        answer = f"Sorry, I encountered an issue retrieving the answer: {str(e)}"
+
+                    st.session_state.akki_chat_history.append({
+                        "role": "assistant",
+                        "content": answer,
+                        "sources": [],
+                        "chunks": []
+                    })
+                
+                st.rerun()
+
+
+# Mount the floating right-bottom Ask Akki chatbot across the application
+render_ask_akki_chatbot()
 
