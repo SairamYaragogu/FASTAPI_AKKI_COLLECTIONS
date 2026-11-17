@@ -57,7 +57,7 @@ if "akki_chat_history" not in st.session_state:
     st.session_state.akki_chat_history = [
         {
             "role": "assistant",
-            "content": "👋 **Welcome to Ask Akki!**\n\nI am your personal AI shopping assistant for **AKKI LATEST COLLECTIONS** (like Eva for Flipkart/HDFC).\n\nYou can ask me anything about:\n- 🥻 **Sarees Collection** (Banarasi, Soft Silk, Kanjivaram, Chanderi, Cotton & more)\n- 👗 **Dress Materials & Suit Sets** (Chanderi, Bandhani, Jamdani, Cotton)\n- ✨ **Ready-to-Wear Dresses & Gowns**\n- 🚚 **100% Free Shipping, Cash on Delivery (COD) & 7-Day Replacement Policy**\n- 📦 **Order Tracking & Support Helpline**\n\nHow can I help you today?",
+            "content": "Hello! 👋\nHow can I help you today?",
             "sources": [],
             "chunks": []
         }
@@ -70,13 +70,13 @@ st.markdown("""
 <style>
     /* Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-    
+
     html, body, [class*="css"] {
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         background-color: #f1f3f6 !important;
         color: #212121;
     }
-    
+
     /* Top Header Bar */
     .fk-header {
         background-color: #2874f0;
@@ -110,7 +110,7 @@ st.markdown("""
         color: #ffe500;
         font-weight: bold;
     }
-    
+
     /* Flipkart Category Bar */
     .fk-cat-container {
         background: #ffffff;
@@ -124,7 +124,7 @@ st.markdown("""
         gap: 15px;
         overflow-x: auto;
     }
-    
+
     /* Product Card Styling */
     .product-card {
         background: #ffffff;
@@ -303,7 +303,7 @@ st.markdown("""
     .thumbnail-img:hover, .thumbnail-img.active {
         border-color: #2874f0;
     }
-    
+
     /* Admin Header Card */
     .admin-card {
         background: #ffffff;
@@ -479,8 +479,10 @@ st.markdown("""
     }
 
     /* =========================================================================
-       FLOATING RIGHT-BOTTOM "ASK AKKI" CHATBOT (LIKE ASK EVA)
+       FLOATING RIGHT-BOTTOM "ASK AKKI" CHATBOT (ASK EVA STYLE)
        ========================================================================= */
+
+    /* ---- Launcher position (fixed bottom-right) ---- */
     div[data-testid="stElementContainer"]:has(div[data-testid="stPopover"]),
     div[data-testid="element-container"]:has(div[data-testid="stPopover"]),
     div.element-container:has(.stPopover) {
@@ -517,12 +519,13 @@ st.markdown("""
         align-items: flex-end !important;
     }
 
+    /* ---- Launcher button (purple gradient pill) ---- */
     div[data-testid="stPopover"] > button,
     .stPopover > button,
     div[data-testid="stPopover"] button[data-testid="baseButton-secondary"],
     div[data-testid="stPopover"] button[kind="secondary"] {
         position: relative !important;
-        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
+        background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%) !important;
         color: #ffffff !important;
         font-family: 'Roboto', sans-serif !important;
         font-size: 15px !important;
@@ -530,7 +533,7 @@ st.markdown("""
         padding: 12px 24px !important;
         border-radius: 50px !important;
         border: 2px solid #ffffff !important;
-        box-shadow: 0 6px 22px rgba(40, 116, 240, 0.48) !important;
+        box-shadow: 0 6px 22px rgba(79, 70, 229, 0.48) !important;
         display: inline-flex !important;
         align-items: center !important;
         gap: 8px !important;
@@ -544,187 +547,265 @@ st.markdown("""
     div[data-testid="stPopover"] > button:hover,
     .stPopover > button:hover {
         transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 10px 28px rgba(40, 116, 240, 0.65) !important;
-        background: linear-gradient(135deg, #1b62d8 0%, #0d429a 100%) !important;
+        box-shadow: 0 10px 28px rgba(79, 70, 229, 0.65) !important;
+        background: linear-gradient(135deg, #6d28d9 0%, #3730a3 100%) !important;
         color: #ffffff !important;
         border-color: #ffffff !important;
     }
 
+    /* ---- Chat window shell ---- */
     div[data-testid="stPopoverBody"] {
-        width: 480px !important;
-        min-width: 380px !important;
+        width: 440px !important;
+        min-width: 360px !important;
         max-width: 95vw !important;
-        height: 670px !important;
-        max-height: 86vh !important;
-        border-radius: 16px !important;
-        box-shadow: 0 20px 55px rgba(0, 0, 0, 0.28) !important;
-        border: 1px solid #cbd5e1 !important;
+        height: auto !important;
+        max-height: 90vh !important;
+        padding: 0 !important;
+        border-radius: 24px !important;
+        border: 1px solid #e0e7ff !important;
+        box-shadow: 0 20px 55px rgba(67, 56, 202, 0.30) !important;
         background: #ffffff !important;
-        padding: 16px !important;
+        overflow-x: hidden !important;
         overflow-y: auto !important;
         z-index: 9999999 !important;
-        display: flex !important;
-        flex-direction: column !important;
     }
 
-    div[data-testid="stPopoverBody"] > div[data-testid="stVerticalBlock"],
-    div[data-testid="stPopoverBody"] > div.stVerticalBlock,
-    div[data-testid="stPopoverBody"] > div:first-child {
-        display: flex !important;
-        flex-direction: column !important;
-        flex: 1 1 auto !important;
-        min-height: 100% !important;
-        width: 100% !important;
+    div[data-testid="stPopoverBody"] div[data-testid="stVerticalBlock"] {
+        gap: 0.4rem !important;
     }
 
-    /* Sticky top header inside chat window */
-    .chat-sticky-header {
-        position: sticky !important;
-        top: -16px !important;
-        background: #ffffff !important;
-        z-index: 99 !important;
-        padding: 2px 0 8px 0 !important;
-        margin-bottom: 4px !important;
+    /* Neutralise the global "card" look so the chat scroll area stays flat */
+    div[data-testid="stPopoverBody"] div[data-testid="stVerticalBlockBorderWrapper"],
+    div[data-testid="stPopoverBody"] div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        transform: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
     }
 
-    /* Top bar gradient matching bottom button */
-    .chat-top-banner {
-        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
+    /* ---- Header (gradient banner with avatar) ---- */
+    .akki-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        min-height: 98px;
+        background: linear-gradient(120deg, #8b5cf6 0%, #5b4fd6 45%, #3b36b0 100%);
+        overflow: hidden;
+    }
+    .akki-header::after {
+        content: "";
+        position: absolute;
+        right: -40px;
+        bottom: -55px;
+        width: 170px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(167, 139, 250, 0.35);
+    }
+    .akki-header-img {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(255, 255, 255, 0.55);
+        background: #ede9fe;
+        z-index: 1;
+        flex-shrink: 0;
+    }
+    .akki-header-img.akki-avatar-fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+    }
+    .akki-header-text { z-index: 1; }
+    .akki-title,
+    div[data-testid="stPopoverBody"] .akki-title {
         color: #ffffff !important;
-        padding: 13px 16px !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 16px rgba(40, 116, 240, 0.35) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-size: 28px;
+        font-weight: 800;
+        line-height: 1.1;
+    }
+    .akki-subtitle,
+    div[data-testid="stPopoverBody"] .akki-subtitle {
+        color: #ede9fe !important;
+        -webkit-text-fill-color: #ede9fe !important;
+        font-size: 13.5px;
+        margin-top: 4px;
+    }
+    .akki-online {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        z-index: 1;
+        color: #bbf7d0;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
     }
 
-    .chat-online-badge {
-        background: #10b981 !important;
+    /* ---- Chat bubbles ---- */
+    .akki-chat-pad { padding: 4px 14px 6px 14px; }
+    .akki-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 10px 0 14px 0;
+    }
+    .akki-row-user { justify-content: flex-end; }
+    .akki-col { display: flex; flex-direction: column; max-width: 76%; }
+    .akki-col-user { align-items: flex-end; }
+    .akki-avatar {
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ddd6fe;
+        flex-shrink: 0;
+    }
+    .akki-avatar-fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ede9fe;
+    }
+    .akki-bubble {
+        padding: 11px 16px;
+        font-size: 14.5px;
+        line-height: 1.45;
+        color: #1e1b2e !important;
+        -webkit-text-fill-color: #1e1b2e !important;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+    }
+    .akki-bubble a { color: #4338ca !important; -webkit-text-fill-color: #4338ca !important; }
+    .akki-bubble-bot  { background: #f1f1f9; border-radius: 18px 18px 18px 6px; }
+    .akki-bubble-user { background: #dbe4ff; border-radius: 18px 18px 6px 18px; }
+    .akki-time {
+        font-size: 11px;
+        color: #6b7280 !important;
+        -webkit-text-fill-color: #6b7280 !important;
+        margin: 4px 6px 0 6px;
+    }
+    .akki-ticks { color: #3b82f6; font-weight: 700; letter-spacing: -2px; margin-left: 2px; }
+
+    /* ---- Section paddings ---- */
+    div.st-key-akki_chips,
+    div.st-key-akki_input,
+    div.st-key-akki_clear {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+    }
+    div.st-key-akki_clear {
+        display: flex !important;
+        justify-content: center !important;
+        padding-bottom: 8px !important;
+    }
+
+    /* ---- Quick-reply chips (pill buttons) ---- */
+    div[data-testid="stPopoverBody"] div.st-key-akki_chips div[data-testid="stHorizontalBlock"] {
+        gap: 0.4rem !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_chips button {
+        background: #ffffff !important;
+        border: 1.5px solid #4c1d95 !important;
+        border-radius: 999px !important;
+        min-height: 38px !important;
+        padding: 2px 6px !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_chips button p,
+    div[data-testid="stPopoverBody"] div.st-key-akki_chips button span {
+        color: #4c1d95 !important;
+        -webkit-text-fill-color: #4c1d95 !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_chips button:hover {
+        background: #f5f3ff !important;
+        border-color: #7c3aed !important;
+    }
+
+    /* ---- Clear chat (small link-style) ---- */
+    div[data-testid="stPopoverBody"] div.st-key-akki_clear button {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        min-height: 24px !important;
+        padding: 0 8px !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_clear button p {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+        font-size: 11.5px !important;
+        font-weight: 500 !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_clear button:hover p {
+        color: #ef4444 !important;
+        -webkit-text-fill-color: #ef4444 !important;
+    }
+
+    /* ---- Input row: rounded field + circular purple send button ---- */
+    div[data-testid="stPopoverBody"] div.st-key-akki_input div[data-testid="stForm"],
+    div[data-testid="stPopoverBody"] div.st-key-akki_input form {
+        border: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input div[data-testid="stTextInputRootElement"] {
+        border-radius: 999px !important;
+        border: 1.5px solid #c7c9e6 !important;
+        background: #ffffff !important;
+        min-height: 46px !important;
+        overflow: hidden !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input div[data-testid="stTextInputRootElement"]:focus-within {
+        border-color: #7c3aed !important;
+        box-shadow: 0 0 0 2px #ddd6fe !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input div[data-baseweb="input"],
+    div[data-testid="stPopoverBody"] div.st-key-akki_input div[data-baseweb="base-input"] {
+        background: #ffffff !important;
+        border: none !important;
+        border-radius: 999px !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input input {
+        background: #ffffff !important;
+        color: #1e1b2e !important;
+        -webkit-text-fill-color: #1e1b2e !important;
+        font-size: 15px !important;
+        padding: 10px 18px !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input input::placeholder {
+        color: #6b7280 !important;
+        -webkit-text-fill-color: #6b7280 !important;
+        opacity: 1 !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input button {
+        width: 46px !important;
+        height: 46px !important;
+        min-height: 46px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        border: none !important;
+        background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+        box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4) !important;
+    }
+    div[data-testid="stPopoverBody"] div.st-key-akki_input button p {
         color: #ffffff !important;
-        font-size: 10px !important;
-        font-weight: 700 !important;
-        padding: 3px 9px !important;
-        border-radius: 20px !important;
-        letter-spacing: 0.5px !important;
-        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4) !important;
-    }
-
-    /* Flex spacer ensuring input box is always pushed to bottom */
-    div[data-testid="stElementContainer"]:has(.chat-flex-spacer),
-    .chat-flex-spacer {
-        flex: 1 1 auto !important;
-        min-height: 16px !important;
-    }
-
-    /* Fixed/Sticky bottom input text area pinned to the bottom */
-    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"]:has(form[data-testid="stForm"]),
-    div[data-testid="stPopoverBody"] div.element-container:has(form),
-    div[data-testid="stPopoverBody"] div:has(> form[data-testid="stForm"]) {
-        margin-top: auto !important;
-        position: sticky !important;
-        bottom: -16px !important;
-        background: #ffffff !important;
-        z-index: 99 !important;
-        padding: 10px 0 2px 0 !important;
-        border-top: 1px solid #e2e8f0 !important;
-        width: 100% !important;
-    }
-
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 10px !important;
-        padding: 6px 8px !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-size: 18px !important;
         margin: 0 !important;
     }
 
-    /* Clean styling for popover body text and dark-mode safety */
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] p,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] li,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] span,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] strong,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] b,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] div,
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessageContent"] * {
-        color: #1e293b !important;
-    }
-
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessage"] {
-        background-color: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 12px !important;
-        padding: 10px 14px !important;
-        margin-bottom: 10px !important;
-    }
-
-    div[data-testid="stPopoverBody"] [data-testid="stChatMessageAvatar"],
-    div[data-testid="stPopoverBody"] .stChatMessageAvatar {
-        background-color: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
-    }
-
-    div[data-testid="stPopoverBody"] button[kind="secondary"],
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"],
-    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button {
-        background-color: #f8fafc !important;
-        color: #1e293b !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        font-weight: 500 !important;
-        font-size: 13px !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-        transition: all 0.2s ease !important;
-    }
-
-    div[data-testid="stPopoverBody"] button[kind="secondary"] p,
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"] p,
-    div[data-testid="stPopoverBody"] button[kind="secondary"] span,
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"] span,
-    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button p,
-    div[data-testid="stPopoverBody"] div[data-testid="stElementContainer"] > div > div > button span {
-        color: #1e293b !important;
-        font-weight: 500 !important;
-    }
-
-    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover,
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover {
-        background-color: #eff6ff !important;
-        border-color: #2874f0 !important;
-        box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2) !important;
-        transform: translateY(-1px) !important;
-    }
-
-    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover p,
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover p,
-    div[data-testid="stPopoverBody"] button[kind="secondary"]:hover span,
-    div[data-testid="stPopoverBody"] button[data-testid="baseButton-secondary"]:hover span {
-        color: #1e40af !important;
-    }
-
-    div[data-testid="stPopoverBody"] div[data-testid="stTextInputRootElement"],
-    div[data-testid="stPopoverBody"] div[data-testid="stTextInputRootElement"] > div,
-    div[data-testid="stPopoverBody"] div[data-testid="stTextInput"] > div > div {
-        background-color: #f8fafc !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-    }
-
-    div[data-testid="stPopoverBody"] input[data-testid="stTextInputRootElement"],
-    div[data-testid="stPopoverBody"] input[type="text"],
-    div[data-testid="stPopoverBody"] input {
-        background-color: #f8fafc !important;
-        color: #0f172a !important;
-        font-size: 14px !important;
-        -webkit-text-fill-color: #0f172a !important;
-    }
-
-    div[data-testid="stPopoverBody"] input::placeholder {
-        color: #64748b !important;
-        -webkit-text-fill-color: #64748b !important;
-        opacity: 1 !important;
-    }
-
+    /* Hide "Press Enter to submit form" helper text */
     div[data-testid="stPopoverBody"] [data-testid="InputInstructions"],
     div[data-testid="stPopoverBody"] div[data-testid="InputInstructions"],
     div[data-testid="stPopoverBody"] span[data-testid="InputInstructions"],
@@ -736,43 +817,6 @@ st.markdown("""
         height: 0 !important;
         width: 0 !important;
         pointer-events: none !important;
-    }
-
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="primary"],
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button[kind="secondary"],
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button {
-        background: linear-gradient(135deg, #2874f0 0%, #1251b5 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-    }
-
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button p,
-    div[data-testid="stPopoverBody"] form[data-testid="stForm"] button span {
-        color: #ffffff !important;
-        font-weight: 600 !important;
-    }
-
-    .chat-top-title,
-    div[data-testid="stPopoverBody"] .chat-top-title,
-    div[data-testid="stPopoverBody"] [data-testid="stMarkdownContainer"] .chat-top-title {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        font-size: 16px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.3px !important;
-    }
-
-    .chat-top-subtitle,
-    div[data-testid="stPopoverBody"] .chat-top-subtitle,
-    div[data-testid="stPopoverBody"] [data-testid="stMarkdownContainer"] .chat-top-subtitle {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        font-size: 11px !important;
-        font-weight: 400 !important;
-        letter-spacing: 0.2px !important;
-        margin-top: 4px !important;
     }
 
     .policy-source-chip {
@@ -789,6 +833,7 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # Helper API functions
 def fetch_api(endpoint: str, method="GET", data=None, files=None):
@@ -808,6 +853,7 @@ def fetch_api(endpoint: str, method="GET", data=None, files=None):
         st.error(f"⚠️ Cannot connect to Backend API at {url}. Error: {e}")
         return None
 
+
 def navigate_to(page: str, product_id=None):
     st.session_state.current_page = page
     if product_id is not None:
@@ -815,10 +861,12 @@ def navigate_to(page: str, product_id=None):
         st.session_state.selected_image_index = 0
     st.rerun()
 
+
 def render_flipkart_gallery(images: list, title: str = "") -> str:
     """Generates Flipkart-style image viewer with pinch/hover zoom and real thumbnails."""
     if not images:
-        images = ["https://res.cloudinary.com/dh96id3hk/image/upload/v1757262322/146691a5-d2a3-4bf8-9835-afa771aa532f_vcxodf.jpg"]
+        images = [
+            "https://res.cloudinary.com/dh96id3hk/image/upload/v1757262322/146691a5-d2a3-4bf8-9835-afa771aa532f_vcxodf.jpg"]
 
     images_json = json.dumps(images)
     escaped_title = title.replace('"', '&quot;')
@@ -956,7 +1004,7 @@ def render_flipkart_gallery(images: list, title: str = "") -> str:
                     const card = document.createElement('div');
                     card.className = 'thumb-box' + (idx === currentIndex ? ' active' : '');
                     card.onclick = () => selectImage(idx);
-                    
+
                     const img = document.createElement('img');
                     img.src = url;
                     card.appendChild(img);
@@ -970,7 +1018,7 @@ def render_flipkart_gallery(images: list, title: str = "") -> str:
                 mainImg.style.transform = 'scale(1)';
                 mainImg.style.transformOrigin = 'center center';
                 currentScale = 1;
-                
+
                 const cards = thumbsRow.getElementsByClassName('thumb-box');
                 for (let i = 0; i < cards.length; i++) {{
                     cards[i].classList.toggle('active', i === idx);
@@ -1000,7 +1048,7 @@ def render_flipkart_gallery(images: list, title: str = "") -> str:
                 const x = ((e.clientX - rect.left) / rect.width) * 100;
                 const y = ((e.clientY - rect.top) / rect.height) * 100;
                 mainImg.style.transformOrigin = `${{x}}% ${{y}}%`;
-                
+
                 if (e.deltaY < 0) {{
                     currentScale = Math.min(3.5, currentScale + 0.3);
                 }} else {{
@@ -1041,6 +1089,7 @@ def render_flipkart_gallery(images: list, title: str = "") -> str:
     </body>
     </html>
     """
+
 
 # --- TOP FLIPKART NAVIGATION HEADER ---
 col_logo, col_search, col_actions = st.columns([2.5, 4.5, 3])
@@ -1093,7 +1142,7 @@ st.markdown("<hr style='margin: 8px 0 16px 0; border: 0.5px solid #e0e0e0;'>", u
 # ==============================================================================
 if st.session_state.current_page == "admin":
     st.markdown("### 🔒 Akki Admin Panel & Stock Inventory Manager")
-    
+
     if not st.session_state.admin_logged_in:
         # Admin Login Screen
         st.info("Please sign in with Admin credentials to upload stock data and manage inventory.")
@@ -1135,14 +1184,16 @@ if st.session_state.current_page == "admin":
 
         # Excel Upload Section
         st.subheader("📤 Upload Stock Entry Excel File (`stock_entry.xlsx`)")
-        st.write("Upload your product catalog spreadsheet. The system will automatically read and update MySQL database inventory in real-time.")
-        
+        st.write(
+            "Upload your product catalog spreadsheet. The system will automatically read and update MySQL database inventory in real-time.")
+
         uploaded_file = st.file_uploader("Choose stock_entry.xlsx file", type=["xlsx", "xls"])
         if uploaded_file is not None:
             st.write(f"Selected file: **{uploaded_file.name}** ({uploaded_file.size / 1024:.1f} KB)")
             if st.button("🚀 Upload & Sync Inventory Now", type="primary"):
                 with st.spinner("Processing Excel and updating MySQL database..."):
-                    files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
+                    files = {"file": (uploaded_file.name, uploaded_file.getvalue(),
+                                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
                     upload_res = fetch_api("/api/admin/upload-excel", method="POST", files=files)
                     if upload_res and upload_res.status_code == 200:
                         res_data = upload_res.json()
@@ -1164,7 +1215,9 @@ if st.session_state.current_page == "admin":
             prods = all_prods_res.json()
             if prods:
                 import pandas as pd
-                cols = ["sno", "category", "subcategory", "title", "price", "mrp", "discount_pct", "rating", "stock_status"]
+
+                cols = ["sno", "category", "subcategory", "title", "price", "mrp", "discount_pct", "rating",
+                        "stock_status"]
                 df_all = pd.DataFrame(prods)
                 display_cols = [c for c in cols if c in df_all.columns]
                 df_view = df_all[display_cols]
@@ -1192,7 +1245,8 @@ if st.session_state.current_page == "admin":
                     # Pagination Controls: Prev & Next buttons at the bottom of the table
                     c_prev, c_info, c_next = st.columns([1, 2, 1])
                     with c_prev:
-                        if st.button("⬅️ Previous", disabled=(curr_page == 0), key="btn_admin_prev", use_container_width=True):
+                        if st.button("⬅️ Previous", disabled=(curr_page == 0), key="btn_admin_prev",
+                                     use_container_width=True):
                             st.session_state.admin_table_page = max(0, curr_page - 1)
                             st.rerun()
                     with c_info:
@@ -1203,7 +1257,8 @@ if st.session_state.current_page == "admin":
                             unsafe_allow_html=True
                         )
                     with c_next:
-                        if st.button("Next ➡️", disabled=(curr_page >= total_pages - 1), key="btn_admin_next", use_container_width=True):
+                        if st.button("Next ➡️", disabled=(curr_page >= total_pages - 1), key="btn_admin_next",
+                                     use_container_width=True):
                             st.session_state.admin_table_page = min(total_pages - 1, curr_page + 1)
                             st.rerun()
                 else:
@@ -1230,7 +1285,8 @@ if st.session_state.current_page == "admin":
                     with g_col1:
                         fig1, ax1 = plt.subplots(figsize=(6, 4))
                         cat_counts = df_chart['category'].value_counts()
-                        bars1 = ax1.bar(cat_counts.index, cat_counts.values, color=palette[:len(cat_counts)], edgecolor='none', width=0.55)
+                        bars1 = ax1.bar(cat_counts.index, cat_counts.values, color=palette[:len(cat_counts)],
+                                        edgecolor='none', width=0.55)
                         ax1.set_title("📦 Product Count by Category", fontsize=13, fontweight='bold', pad=12)
                         ax1.set_ylabel("Number of Products", fontsize=11)
                         ax1.grid(axis='y', linestyle='--', alpha=0.3)
@@ -1239,7 +1295,8 @@ if st.session_state.current_page == "admin":
                         ax1.tick_params(axis='x', rotation=15)
                         for bar in bars1:
                             yval = bar.get_height()
-                            ax1.text(bar.get_x() + bar.get_width() / 2, yval + 0.3, int(yval), ha='center', va='bottom', fontsize=10, fontweight='bold')
+                            ax1.text(bar.get_x() + bar.get_width() / 2, yval + 0.3, int(yval), ha='center', va='bottom',
+                                     fontsize=10, fontweight='bold')
                         plt.tight_layout()
                         st.pyplot(fig1, use_container_width=True)
                         plt.close(fig1)
@@ -1250,8 +1307,9 @@ if st.session_state.current_page == "admin":
                         price_grp = df_chart.groupby('category')[['price', 'mrp']].mean().reset_index()
                         x = np.arange(len(price_grp))
                         width = 0.35
-                        rects1 = ax2.bar(x - width/2, price_grp['price'], width, label='Selling Price', color=primary_color)
-                        rects2 = ax2.bar(x + width/2, price_grp['mrp'], width, label='MRP', color=secondary_color)
+                        rects1 = ax2.bar(x - width / 2, price_grp['price'], width, label='Selling Price',
+                                         color=primary_color)
+                        rects2 = ax2.bar(x + width / 2, price_grp['mrp'], width, label='MRP', color=secondary_color)
                         ax2.set_title("💰 Avg Price vs MRP by Category (₹)", fontsize=13, fontweight='bold', pad=12)
                         ax2.set_xticks(x)
                         ax2.set_xticklabels(price_grp['category'], rotation=15)
@@ -1262,7 +1320,8 @@ if st.session_state.current_page == "admin":
                         ax2.legend(frameon=False)
                         for rect in rects1:
                             h = rect.get_height()
-                            ax2.text(rect.get_x() + rect.get_width() / 2, h + 50, f"₹{h:,.0f}", ha='center', va='bottom', fontsize=8, rotation=0)
+                            ax2.text(rect.get_x() + rect.get_width() / 2, h + 50, f"₹{h:,.0f}", ha='center',
+                                     va='bottom', fontsize=8, rotation=0)
                         plt.tight_layout()
                         st.pyplot(fig2, use_container_width=True)
                         plt.close(fig2)
@@ -1304,7 +1363,8 @@ if st.session_state.current_page == "admin":
                         ax4.tick_params(axis='x', rotation=15)
                         for bar in bars4:
                             yval = bar.get_height()
-                            ax4.text(bar.get_x() + bar.get_width() / 2, yval + 0.1, f"{yval:.2f} ★", ha='center', va='bottom', fontsize=9, fontweight='bold')
+                            ax4.text(bar.get_x() + bar.get_width() / 2, yval + 0.1, f"{yval:.2f} ★", ha='center',
+                                     va='bottom', fontsize=9, fontweight='bold')
                         plt.tight_layout()
                         st.pyplot(fig4, use_container_width=True)
                         plt.close(fig4)
@@ -1328,7 +1388,7 @@ elif st.session_state.current_page == "cart":
         cart_left, cart_right = st.columns([2.2, 1])
         total_mrp = 0
         total_selling = 0
-        
+
         with cart_left:
             for idx, item in enumerate(st.session_state.cart):
                 with st.container(border=True):
@@ -1348,12 +1408,20 @@ elif st.session_state.current_page == "cart":
                             unsafe_allow_html=True
                         )
                     with c2:
-                        st.markdown(f"<div class='cart-item-title' title='{item.get('title', '')}'>{item.get('title', '')}</div>", unsafe_allow_html=True)
-                        st.markdown(f"<div class='cart-item-meta'>Category: {item.get('category', 'Fashion')} | Fabric: {item.get('subcategory', 'General')}</div>", unsafe_allow_html=True)
+                        st.markdown(
+                            f"<div class='cart-item-title' title='{item.get('title', '')}'>{item.get('title', '')}</div>",
+                            unsafe_allow_html=True)
+                        st.markdown(
+                            f"<div class='cart-item-meta'>Category: {item.get('category', 'Fashion')} | Fabric: {item.get('subcategory', 'General')}</div>",
+                            unsafe_allow_html=True)
                         price = item.get('price', 0)
                         mrp = item.get('mrp', price * 1.5)
-                        st.markdown(f"<div class='price-row'><span class='selling-price'>₹{price:,.0f}</span> <span class='mrp-price'>₹{mrp:,.0f}</span> <span class='discount-pct'>{item.get('discount_pct', 35)}% off</span></div>", unsafe_allow_html=True)
-                        st.markdown("<div class='cart-item-delivery'>Delivery by Tomorrow | <span style='color: #388e3c; font-weight: 600;'>Free ₹40</span></div>", unsafe_allow_html=True)
+                        st.markdown(
+                            f"<div class='price-row'><span class='selling-price'>₹{price:,.0f}</span> <span class='mrp-price'>₹{mrp:,.0f}</span> <span class='discount-pct'>{item.get('discount_pct', 35)}% off</span></div>",
+                            unsafe_allow_html=True)
+                        st.markdown(
+                            "<div class='cart-item-delivery'>Delivery by Tomorrow | <span style='color: #388e3c; font-weight: 600;'>Free ₹40</span></div>",
+                            unsafe_allow_html=True)
                     with c3:
                         if st.button("Remove", key=f"del_cart_{idx}", use_container_width=True):
                             st.session_state.cart.pop(idx)
@@ -1409,14 +1477,14 @@ elif st.session_state.current_page == "cart":
 elif st.session_state.current_page == "detail":
     prod_id = st.session_state.selected_product_id
     detail_res = fetch_api(f"/api/products/{prod_id}")
-    
+
     if not detail_res or detail_res.status_code != 200:
         st.error("Product details could not be retrieved.")
         if st.button("← Back to Products"):
             navigate_to("home")
     else:
         product = detail_res.json()
-        
+
         # Breadcrumbs
         st.markdown(f"""
         <div style="font-size: 13px; color: #94a3b8; margin-bottom: 14px;">
@@ -1431,7 +1499,7 @@ elif st.session_state.current_page == "detail":
             navigate_to("home")
 
         img_col, details_col = st.columns([1.8, 2.2], gap="large")
-        
+
         images = product.get("image_urls") or []
         if not images and product.get("primary_image"):
             images = [product.get("primary_image")]
@@ -1463,7 +1531,7 @@ elif st.session_state.current_page == "detail":
                 {product.get('title')}
             </div>
             """, unsafe_allow_html=True)
-            
+
             # Subcategory & Fabric
             st.markdown(f"""
             <div style="font-size: 13.5px; color: #6b7280; margin-bottom: 10px;">
@@ -1471,7 +1539,7 @@ elif st.session_state.current_page == "detail":
                 Fabric/Type: <b style="color: #111827;">{product.get('subcategory')}</b>
             </div>
             """, unsafe_allow_html=True)
-            
+
             # Rating & Assured Badge
             rating = product.get("rating", 4.3)
             reviews = product.get("reviews_count", 120)
@@ -1525,11 +1593,17 @@ elif st.session_state.current_page == "detail":
             """, unsafe_allow_html=True)
 
             # Description
-            st.markdown("<div style='font-size: 16px; font-weight: 700; color: #111827; margin-top: 18px; margin-bottom: 6px;'>Product Description</div>", unsafe_allow_html=True)
-            st.markdown(f"<div style='color: #4b5563; font-size: 14px; line-height: 1.6;'>{product.get('description') or 'Premium quality ethnic wear curated with elegance for festivals, parties, and daily graceful attire.'}</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div style='font-size: 16px; font-weight: 700; color: #111827; margin-top: 18px; margin-bottom: 6px;'>Product Description</div>",
+                unsafe_allow_html=True)
+            st.markdown(
+                f"<div style='color: #4b5563; font-size: 14px; line-height: 1.6;'>{product.get('description') or 'Premium quality ethnic wear curated with elegance for festivals, parties, and daily graceful attire.'}</div>",
+                unsafe_allow_html=True)
 
             # Specifications Table
-            st.markdown("<div style='font-size: 16px; font-weight: 700; color: #111827; margin-top: 20px; margin-bottom: 8px;'>Specifications</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div style='font-size: 16px; font-weight: 700; color: #111827; margin-top: 20px; margin-bottom: 8px;'>Specifications</div>",
+                unsafe_allow_html=True)
             spec_data = {
                 "Catalog S.No": product.get("sno"),
                 "Collection Name": product.get("title"),
@@ -1540,6 +1614,7 @@ elif st.session_state.current_page == "detail":
                 "Authenticity": "100% Original Brand Assured"
             }
             import pandas as pd
+
             st.table(pd.DataFrame(list(spec_data.items()), columns=["Attribute", "Details"]))
 
 # ==============================================================================
@@ -1594,7 +1669,8 @@ else:
         selected_sub = st.selectbox(
             f"📌 Filter Subcategory ({st.session_state.selected_category}):",
             options=subcategories,
-            index=subcategories.index(st.session_state.selected_subcategory) if st.session_state.selected_subcategory in subcategories else 0
+            index=subcategories.index(
+                st.session_state.selected_subcategory) if st.session_state.selected_subcategory in subcategories else 0
         )
         if selected_sub != st.session_state.selected_subcategory:
             st.session_state.selected_subcategory = selected_sub
@@ -1636,7 +1712,8 @@ else:
 
     # Display Results Count
     search_hint = f" for '{st.session_state.search_query}'" if st.session_state.search_query else ""
-    st.markdown(f"Showing **{len(products)} products** in **{st.session_state.selected_category}** > **{st.session_state.selected_subcategory}**{search_hint}")
+    st.markdown(
+        f"Showing **{len(products)} products** in **{st.session_state.selected_category}** > **{st.session_state.selected_subcategory}**{search_hint}")
 
     if not products:
         st.warning("No products match the selected criteria. Try selecting 'All' or clearing filters.")
@@ -1646,7 +1723,7 @@ else:
         for i in range(0, len(products), cols_per_row):
             row_items = products[i:i + cols_per_row]
             grid_cols = st.columns(cols_per_row)
-            
+
             for j, item in enumerate(row_items):
                 with grid_cols[j]:
                     card_placeholder = st.container()
@@ -1681,10 +1758,11 @@ else:
                             <div class="offer-tag">Free delivery</div>
                         </div>
                         """, unsafe_allow_html=True)
-                        
+
                         btn_c1, btn_c2 = st.columns([1.5, 1])
                         with btn_c1:
-                            if st.button("🔍 View Details", key=f"view_{item.get('id')}", use_container_width=True, type="primary"):
+                            if st.button("🔍 View Details", key=f"view_{item.get('id')}", use_container_width=True,
+                                         type="primary"):
                                 navigate_to("detail", product_id=item.get("id"))
                         with btn_c2:
                             if st.button("🛒 Add", key=f"quick_add_{item.get('id')}", use_container_width=True):
@@ -1698,133 +1776,277 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ==============================================================================
+# FLOATING RIGHT-BOTTOM "ASK AKKI" AI ASSISTANT (ADVANCED RAG + OPENAI)
+# Restyled to look like the "Ask Eva" chat window.
+# ==============================================================================
+import base64
+import html as _html
+from datetime import datetime
+
+# Optional avatar image shown in the header and next to bot messages.
+# Put your cartoon avatar at  <project folder>/assets/akki_avatar.png
+# (if the file is missing, a 🛍️ emoji avatar is used automatically).
+AKKI_AVATAR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "akki_avatar.png")
+AKKI_GREETING = "Hello! 👋\nHow can I help you today?"
+
+# Quick-reply chips: (label, question sent to the RAG pipeline)
+AKKI_CHIPS = [
+    ("📦 Delivery Info", "What are the shipping charges, delivery times, and 7-day replacement policies?"),
+    ("↩️ Return Policy", "What is your return policy?"),
+    ("🥻 Popular Sarees", "What saree varieties, fabrics, and subcategories are available in your collection?"),
+    ("👗 Dress Materials", "What types of unstitched dress materials and suit sets do you offer?"),
+    ("✨ Ready Dresses", "What ready-to-wear dresses, Anarkali suits, and gowns are available?"),
+    ("💳 COD & Payments", "What payment options and Cash on Delivery (COD) terms are supported?"),
+]
+
 
 # ==============================================================================
 # FLOATING RIGHT-BOTTOM "ASK AKKI" AI ASSISTANT (ADVANCED RAG + OPENAI)
+# Restyled to look like the "Ask Eva" chat window.
 # ==============================================================================
+
+
+# Optional avatar image shown in the header and next to bot messages.
+# Put your cartoon avatar at  <project folder>/assets/akki_avatar.png
+# (if the file is missing, a 🛍️ emoji avatar is used automatically).
+AKKI_AVATAR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "akki_avatar.png")
+AKKI_GREETING = "Hello! 👋\nHow can I help you today?"
+
+# Extra CSS for the chat area + "thinking" indicator (injected by the chatbot itself)
+AKKI_EXTRA_CSS = """
+<style>
+    /* Chat area: clear edge under the header so scrolled messages never look cut under it */
+    div.st-key-akki_chat {
+        border-top: 1px solid #eef0fb !important;
+        background: #ffffff !important;
+    }
+    .akki-chat-pad { padding: 14px 14px 18px 14px !important; }
+
+    /* "Akki is thinking..." indicator above the input box */
+    div.st-key-akki_status { padding: 0 18px !important; box-sizing: border-box !important; }
+    .akki-thinking {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 14px;
+        margin: 2px 0 6px 0;
+        width: fit-content;
+        background: #f5f3ff;
+        border: 1px solid #ddd6fe;
+        border-radius: 999px;
+        color: #4c1d95 !important;
+        -webkit-text-fill-color: #4c1d95 !important;
+        font-size: 12.5px;
+        font-weight: 600;
+    }
+    .akki-dots { display: inline-flex; gap: 3px; }
+    .akki-dots i {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: #7c3aed;
+        animation: akkiBlink 1.2s infinite ease-in-out both;
+    }
+    .akki-dots i:nth-child(2) { animation-delay: .2s; }
+    .akki-dots i:nth-child(3) { animation-delay: .4s; }
+    @keyframes akkiBlink {
+        0%, 80%, 100% { opacity: .25; transform: scale(.8); }
+        40%           { opacity: 1;   transform: scale(1.15); }
+    }
+</style>
+"""
+
+
+def _akki_now():
+    """Current time as '4:12 PM' (India time, falls back to server time)."""
+    try:
+        from zoneinfo import ZoneInfo
+        now = datetime.now(ZoneInfo("Asia/Kolkata"))
+    except Exception:
+        now = datetime.now()
+    return now.strftime("%I:%M %p").lstrip("0")
+
+
+@st.cache_data(show_spinner=False)
+def _akki_avatar_uri(path):
+    if path and os.path.exists(path):
+        ext = os.path.splitext(path)[1].lower().replace(".", "") or "png"
+        with open(path, "rb") as f:
+            return f"data:image/{ext};base64," + base64.b64encode(f.read()).decode()
+    return None
+
+
+def _akki_avatar_html(size=38, css_class="akki-avatar"):
+    uri = _akki_avatar_uri(AKKI_AVATAR_PATH)
+    if uri:
+        return f'<img class="{css_class}" src="{uri}" style="width:{size}px;height:{size}px;">'
+    return (f'<div class="{css_class} akki-avatar-fallback" '
+            f'style="width:{size}px;height:{size}px;font-size:{int(size * 0.5)}px;">🛍️</div>')
+
+
+def _akki_format(text):
+    """Escape message text and support **bold**, bullets, links and line breaks inside bubbles."""
+    text = _html.escape(text)
+    text = re.sub(r"(?m)^\s*#{1,6}\s*", "", text)
+    text = re.sub(r"(?m)^\s*[-*]\s+", "• ", text)
+    text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
+    text = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r'<a href="\2" target="_blank">\1</a>', text)
+    return text.replace("\n", "<br>")
+
+
+def _akki_bubble_html(msg):
+    content = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", msg["content"], flags=re.IGNORECASE).strip()
+    body = _akki_format(content)
+    t = _html.escape(msg.get("time", ""))
+    if msg["role"] == "user":
+        return (
+            '<div class="akki-row akki-row-user"><div class="akki-col akki-col-user">'
+            f'<div class="akki-bubble akki-bubble-user">{body}</div>'
+            f'<div class="akki-time">{t} <span class="akki-ticks">✓✓</span></div>'
+            '</div></div>'
+        )
+    return (
+        f'<div class="akki-row">{_akki_avatar_html(38)}<div class="akki-col">'
+        f'<div class="akki-bubble akki-bubble-bot">{body}</div>'
+        f'<div class="akki-time">{t}</div>'
+        '</div></div>'
+    )
+
+
 def render_ask_akki_chatbot():
     """Renders the fixed bottom-right 'Ask Akki' AI Shopping Assistant widget (styled like 'Ask Eva')."""
+    # Give any message without a timestamp one (e.g. the first greeting)
+    for _m in st.session_state.akki_chat_history:
+        _m.setdefault("time", _akki_now())
+
+    st.markdown(AKKI_EXTRA_CSS, unsafe_allow_html=True)
+
     col_spacer, col_bot = st.columns([8, 2])
     with col_bot:
         with st.popover("💬 Ask Akki", use_container_width=False):
-            # 1. Sticky Header Bar with Title Banner
-            st.markdown("""
-            <div class="chat-sticky-header">
-                <div class="chat-top-banner">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 20px;">🛍️</span>
-                            <span class="chat-top-title">Ask Akki</span>
-                        </div>
-                        <span class="chat-online-badge">● ONLINE</span>
-                    </div>
-                    <div class="chat-top-subtitle">
-                        AI Personal Shopping Assistant & Store Guide
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            # 1. Gradient header with avatar
+            st.markdown(
+                '<div class="akki-header">'
+                '<span class="akki-online">● ONLINE</span>'
+                f'{_akki_avatar_html(74, "akki-header-img")}'
+                '<div class="akki-header-text">'
+                '<div class="akki-title">Ask Akki</div>'
+                '<div class="akki-subtitle">Your Shopping Assistant 🛍️</div>'
+                '</div></div>',
+                unsafe_allow_html=True
+            )
 
-            # 2. Frequently Asked Questions (Quick Chips)
-            st.markdown("<div style='font-size: 11px; font-weight: 600; color: #64748b; margin: 6px 0 4px 0;'>💡 Frequently Asked Questions:</div>", unsafe_allow_html=True)
-            q1, q2 = st.columns(2)
-            with q1:
-                if st.button("🥻 Saree Varieties?", key="akki_quick_q1", use_container_width=True):
-                    st.session_state.pending_akki_query = "What saree varieties, fabrics, and subcategories are available in your collection?"
-            with q2:
-                if st.button("👗 Dress Materials?", key="akki_quick_q2", use_container_width=True):
-                    st.session_state.pending_akki_query = "What types of unstitched dress materials and suit sets do you offer?"
-            
-            q3, q4 = st.columns(2)
-            with q3:
-                if st.button("✨ Ready Dresses?", key="akki_quick_q3", use_container_width=True):
-                    st.session_state.pending_akki_query = "What ready-to-wear dresses, Anarkali suits, and gowns are available?"
-            with q4:
-                if st.button("🚚 Delivery & Returns?", key="akki_quick_q4", use_container_width=True):
-                    st.session_state.pending_akki_query = "What are the shipping charges, delivery times, and 7-day replacement policies?"
+            # 2. Scrollable chat area (header and input stay fixed)
+            with st.container(height=390, border=False, key="akki_chat"):
+                bubbles = "".join(_akki_bubble_html(m) for m in st.session_state.akki_chat_history)
+                st.markdown(
+                    f'<div class="akki-chat-pad">{bubbles}<div class="akki-end"></div></div>',
+                    unsafe_allow_html=True
+                )
+                # Auto-scroll ONLY the chat area to the latest message
+                components.html(
+                    """<script>
+                    function akkiScrollDown() {
+                        try {
+                            var doc = window.parent.document;
+                            var ends = doc.querySelectorAll('.akki-end');
+                            if (!ends.length) return;
+                            var p = ends[ends.length - 1].parentElement;
+                            while (p) {
+                                if (p.getAttribute && p.getAttribute('data-testid') === 'stPopoverBody') break;
+                                var oy = window.parent.getComputedStyle(p).overflowY;
+                                if ((oy === 'auto' || oy === 'scroll') && p.scrollHeight > p.clientHeight) {
+                                    p.scrollTop = p.scrollHeight;
+                                    break;
+                                }
+                                p = p.parentElement;
+                            }
+                        } catch (e) {}
+                    }
+                    setTimeout(akkiScrollDown, 100);
+                    setTimeout(akkiScrollDown, 400);
+                    </script>""",
+                    height=0
+                )
 
-            q5, q6 = st.columns(2)
-            with q5:
-                if st.button("💳 COD & Payments?", key="akki_quick_q5", use_container_width=True):
-                    st.session_state.pending_akki_query = "What payment options and Cash on Delivery (COD) terms are supported?"
-            with q6:
-                if st.button("🗑️ Clear Chat", key="akki_clear_chat", use_container_width=True):
+            # 3. "Akki is thinking..." indicator slot (sits right above the input box)
+            with st.container(key="akki_status"):
+                status_slot = st.empty()
+
+            # 4. Rounded input + circular send button
+            with st.container(key="akki_input"):
+                with st.form("akki_chat_form", clear_on_submit=True):
+                    in_c1, in_c2 = st.columns([6, 1.1], vertical_alignment="center")
+                    with in_c1:
+                        user_text = st.text_input(
+                            "Ask question:",
+                            placeholder="Type your question...",
+                            label_visibility="collapsed",
+                            key="akki_user_input_field"
+                        )
+                    with in_c2:
+                        submitted = st.form_submit_button("➤")
+
+            # 5. Clear chat (small link-style button)
+            with st.container(key="akki_clear"):
+                if st.button("🗑️ Clear chat", key="akki_clear_chat"):
+                    st.session_state.akki_processing = None
                     st.session_state.akki_chat_history = [
                         {
                             "role": "assistant",
-                            "content": "👋 Chat reset! How can I assist you with AKKI LATEST COLLECTIONS today?",
+                            "content": AKKI_GREETING,
+                            "time": _akki_now(),
                             "sources": [],
                             "chunks": []
                         }
                     ]
                     st.rerun()
 
-            st.markdown("<hr style='margin: 8px 0; border: none; border-top: 1px solid #f1f5f9;'>", unsafe_allow_html=True)
-
-            # 3. Clean Chat Message History
-            for msg in st.session_state.akki_chat_history:
-                with st.chat_message(msg["role"], avatar="🧑‍💼" if msg["role"] == "user" else "🛍️"):
-                    clean_content = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", msg["content"], flags=re.IGNORECASE).strip()
-                    st.markdown(clean_content)
-
-            # Flexible spacer ensuring input box is always pushed to bottom
-            st.markdown('<div class="chat-flex-spacer"></div>', unsafe_allow_html=True)
-
-            # 4. Sticky Bottom Input Form (Fixed at the bottom of the popover view)
-            with st.form("akki_chat_form", clear_on_submit=True):
-                in_c1, in_c2 = st.columns([3.8, 1.2])
-                with in_c1:
-                    user_text = st.text_input(
-                        "Ask question:",
-                        placeholder="Ask Akki...",
-                        label_visibility="collapsed",
-                        key="akki_user_input_field"
-                    )
-                with in_c2:
-                    submitted = st.form_submit_button("Send 🚀", use_container_width=True)
-
-            # 5. Query Processing
-            query_to_process = None
+            # 6. New question: show it in the chat immediately, then answer on the next run
             if submitted and user_text and user_text.strip():
-                query_to_process = user_text.strip()
-            elif st.session_state.pending_akki_query:
-                query_to_process = st.session_state.pending_akki_query
-                st.session_state.pending_akki_query = None
-
-            if query_to_process:
+                query = user_text.strip()
                 st.session_state.akki_chat_history.append({
                     "role": "user",
-                    "content": query_to_process,
+                    "content": query,
+                    "time": _akki_now(),
                     "sources": [],
                     "chunks": []
                 })
-                
-                with st.spinner("Akki is thinking..."):
-                    try:
-                        if retrieve_documents and generate_answer:
-                            res = retrieve_documents(query_to_process, verbose=True)
-                            chunks = res.get("chunks", [])
-                            raw_answer = generate_answer(query_to_process, chunks, verbose=True)
-                            answer = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", raw_answer, flags=re.IGNORECASE).strip()
-                            
-                            # Advanced RAG Step 7: Answer Evaluation Technique (RAG Triad)
-                            if evaluate_answer:
-                                evaluate_answer(query_to_process, chunks, answer, verbose=True)
-                        else:
-                            answer = "Advanced RAG module could not be loaded."
-                    except Exception as e:
-                        answer = f"Sorry, I encountered an issue retrieving the answer: {str(e)}"
+                st.session_state.akki_processing = query
+                st.rerun()
 
-                    st.session_state.akki_chat_history.append({
-                        "role": "assistant",
-                        "content": answer,
-                        "sources": [],
-                        "chunks": []
-                    })
-                
+            # 7. Answer the pending question (RAG logic unchanged) with the indicator above the input
+            pending_query = st.session_state.get("akki_processing")
+            if pending_query:
+                st.session_state.akki_processing = None
+                status_slot.markdown(
+                    '<div class="akki-thinking"><span>Akki is thinking</span>'
+                    '<span class="akki-dots"><i></i><i></i><i></i></span></div>',
+                    unsafe_allow_html=True
+                )
+                try:
+                    if retrieve_documents and generate_answer:
+                        res = retrieve_documents(pending_query, verbose=True)
+                        chunks = res.get("chunks", [])
+                        raw_answer = generate_answer(pending_query, chunks, verbose=True)
+                        answer = re.sub(r"\(?\s*Source\s*:\s*[^)\n]+\)?", "", raw_answer, flags=re.IGNORECASE).strip()
+
+                        # Advanced RAG Step 7: Answer Evaluation Technique (RAG Triad)
+                        if evaluate_answer:
+                            evaluate_answer(pending_query, chunks, answer, verbose=True)
+                    else:
+                        answer = "Advanced RAG module could not be loaded."
+                except Exception as e:
+                    answer = f"Sorry, I encountered an issue retrieving the answer: {str(e)}"
+
+                st.session_state.akki_chat_history.append({
+                    "role": "assistant",
+                    "content": answer,
+                    "time": _akki_now(),
+                    "sources": [],
+                    "chunks": []
+                })
                 st.rerun()
 
 
 # Mount the floating right-bottom Ask Akki chatbot across the application
 render_ask_akki_chatbot()
-

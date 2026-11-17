@@ -2,25 +2,22 @@
 
 This document lists all live products available in stock at AKKI LATEST COLLECTIONS.
 
-### Product: Mangalagiri Pattu Sarees
+### Product: Chanderi Cotton Saree
 - Category: Saree
-- Subcategory: Net Saree
+- Subcategory: Cotton Saree
 - Selling Price: Rs. 3,000
-- Description: Pattu Saree
+- Description: Pure Chanderi Cotton Saree
+- Discount: 35%
+- Customer Rating: 4.8
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
-### Product: Lavender Chanderi Saree
+### Product: Kanchi Pattu Saree
 - Category: Saree
-- Subcategory: Chanderi Saree
+- Subcategory: Pattu Saree
 - Selling Price: Rs. 17,500
-- Description: Soft sheer fabric with delicate border
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Embroidered Cotton Set
-- Category: Dress Material
-- Subcategory: Cotton Embroidered
-- Selling Price: Rs. 2,250
-- Description: Butti work cotton dress material
+- Description: Kanchi Pattu Saree
+- Discount: 35%
+- Customer Rating: 4.7
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
 ### Product: Peach Soft Silk
@@ -28,13 +25,17 @@ This document lists all live products available in stock at AKKI LATEST COLLECTI
 - Subcategory: Soft Silk Saree
 - Selling Price: Rs. 2,450
 - Description: Lightweight silk with contrast pallu
+- Discount: 35%
+- Customer Rating: 4.6
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
-### Product: Teal Art Silk Saree
-- Category: Saree
-- Subcategory: Art Silk Saree
-- Selling Price: Rs. 1,600
-- Description: Rich look, budget-friendly festive wear
+### Product: Embroidered Cotton Set
+- Category: Dress Material
+- Subcategory: Cotton Embroidered
+- Selling Price: Rs. 2,250
+- Description: Butti work cotton dress material
+- Discount: 35%
+- Customer Rating: 4.5
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
 ### Product: Cotton Floral Material
@@ -42,272 +43,8 @@ This document lists all live products available in stock at AKKI LATEST COLLECTI
 - Subcategory: Cotton Dress Material
 - Selling Price: Rs. 2,010
 - Description: Pure cotton suit material with floral print
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Elegant Simmer Silk
-- Category: Dress Material
-- Subcategory: Simmer Silk Dress Material
-- Selling Price: Rs. 3,400
-- Description: Shiny silk material for semi-stitched suits
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Pink Georgette Dress
-- Category: Dress
-- Subcategory: Georgette Dress
-- Selling Price: Rs. 3,500
-- Description: Flowing georgette dress with minimal embroidery
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: HD Fiona Silk Dress
-- Category: Dress
-- Subcategory: Silk Dress
-- Selling Price: Rs. 1,550
-- Description: Silk dress with sequence work
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Embroidered Punjabi Suit
-- Category: Dress
-- Subcategory: Punjabi Suit
-- Selling Price: Rs. 3,200
-- Description: Green suit with yellow embroidered dupatta
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Kessi Panch Ratna Dress
-- Category: Dress
-- Subcategory: Silk Dress
-- Selling Price: Rs. 1,875
-- Description: Jam silk dress with sequence work
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Maroon Tussar Saree
-- Category: Saree
-- Subcategory: Tussar Silk Saree
-- Selling Price: Rs. 22,000
-- Description: Raw silk saree with tribal motifs
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Cotton Jackward Dress
-- Category: Dress
-- Subcategory: Cotton Dress
-- Selling Price: Rs. 3,400
-- Description: Comfortable cotton jackward dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Red Banarasi Zari Saree
-- Category: Saree
-- Subcategory: Banarasi Saree
-- Selling Price: Rs. 5,600
-- Description: Handloom banarasi with golden zari work
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Yellow Floral Printed Saree
-- Category: Saree
-- Subcategory: Printed Saree
-- Selling Price: Rs. 980
-- Description: Lightweight printed saree for casual wear
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Sky Chanderi Suit Material
-- Category: Dress Material
-- Subcategory: Chanderi Dress Material
-- Selling Price: Rs. 2,450
-- Description: Semi-stitched chanderi fabric with butti work
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Heavy Embroidered Set
-- Category: Dress Material
-- Subcategory: Embroidered Dress Material
-- Selling Price: Rs. 4,100
-- Description: Party wear material with heavy neck embroidery
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Black A-Line Dress
-- Category: Dress
-- Subcategory: A-Line Dress
-- Selling Price: Rs. 2,200
-- Description: Western wear A-line dress for parties
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Summer Maxi Dress
-- Category: Dress
-- Subcategory: Maxi Dress
-- Selling Price: Rs. 1,650
-- Description: Long floral printed maxi dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Glitter Evening Dress
-- Category: Dress
-- Subcategory: Party Dress
-- Selling Price: Rs. 4,100
-- Description: Shiny sequin evening dress for party wear
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Beige Linen Saree
-- Category: Saree
-- Subcategory: Linen Saree
-- Selling Price: Rs. 1,800
-- Description: Soft linen saree with elegant border
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Mint Georgette Saree
-- Category: Saree
-- Subcategory: Georgette Saree
-- Selling Price: Rs. 2,100
-- Description: Lightweight georgette with contrast border
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Pink Printed Material
-- Category: Dress Material
-- Subcategory: Printed Dress Material
-- Selling Price: Rs. 950
-- Description: Cotton printed material for daily wear
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Royal Blue Silk Material
-- Category: Dress Material
-- Subcategory: Silk Dress Material
-- Selling Price: Rs. 3,700
-- Description: Smooth silk dress material
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Royal Blue Evening Gown
-- Category: Dress
-- Subcategory: Gown
-- Selling Price: Rs. 4,800
-- Description: Full-length gown with lace sleeves
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Red Skater Dress
-- Category: Dress
-- Subcategory: Skater Dress
-- Selling Price: Rs. 1,200
-- Description: Knee-length skater dress for casual outings
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Maroon Anarkali
-- Category: Dress
-- Subcategory: Anarkali Dress
-- Selling Price: Rs. 2,990
-- Description: Floor-length ethnic anarkali dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Lemon Yellow Chiffon Saree
-- Category: Saree
-- Subcategory: Chiffon Saree
-- Selling Price: Rs. 1,450
-- Description: Lightweight chiffon saree for summer
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Grey Embroidered Saree
-- Category: Saree
-- Subcategory: Embroidered Saree
-- Selling Price: Rs. 5,400
-- Description: Hand-embroidered elegant saree
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Navy Blue Party Wear Saree
-- Category: Saree
-- Subcategory: Party Wear Saree
-- Selling Price: Rs. 6,200
-- Description: Sequin and beadwork saree for weddings
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Striped Cotton Material
-- Category: Dress Material
-- Subcategory: Cotton Dress Material
-- Selling Price: Rs. 800
-- Description: Comfortable striped cotton fabric
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Golden Embroidery Suit Material
-- Category: Dress Material
-- Subcategory: Party Wear Dress Material
-- Selling Price: Rs. 4,200
-- Description: Festive embroidery work fabric
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Black Evening Dress
-- Category: Dress
-- Subcategory: Evening Dress
-- Selling Price: Rs. 3,300
-- Description: Elegant black evening dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Formal Work Dress
-- Category: Dress
-- Subcategory: Workwear Dress
-- Selling Price: Rs. 1,900
-- Description: Grey knee-length office dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Maroon Bodycon Dress
-- Category: Dress
-- Subcategory: Bodycon Dress
-- Selling Price: Rs. 2,800
-- Description: Stretchable western bodycon dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Purple Kanjivaram Silk
-- Category: Saree
-- Subcategory: Kanjivaram Saree
-- Selling Price: Rs. 8,900
-- Description: Handloom silk with golden zari
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Blue Printed Daily Saree
-- Category: Saree
-- Subcategory: Printed Saree
-- Selling Price: Rs. 950
-- Description: Everyday wear printed saree
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Green Patiala Material
-- Category: Dress Material
-- Subcategory: Patiala Suit Material
-- Selling Price: Rs. 2,100
-- Description: Cotton material for Patiala suit
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Yellow Palazzo Suit
-- Category: Dress
-- Subcategory: Palazzo Suit
-- Selling Price: Rs. 2,600
-- Description: Comfortable ethnic palazzo dress
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Blue Cotton Casual Dress
-- Category: Dress
-- Subcategory: Cotton Dress
-- Selling Price: Rs. 1,100
-- Description: Simple cotton dress for summer
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: White Linen Saree
-- Category: Saree
-- Subcategory: Linen Saree
-- Selling Price: Rs. 2,000
-- Description: Soft linen saree with golden edge
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Green Banarasi Saree
-- Category: Saree
-- Subcategory: Banarasi Saree
-- Selling Price: Rs. 5,700
-- Description: Traditional handwoven banarasi
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Violet Embroidered Material
-- Category: Dress Material
-- Subcategory: Embroidered Dress Material
-- Selling Price: Rs. 3,900
-- Description: Heavy embroidery for festive wear
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Brown Cotton Fabric
-- Category: Dress Material
-- Subcategory: Cotton Dress Material
-- Selling Price: Rs. 850
-- Description: Lightweight cotton dress material
+- Discount: 35%
+- Customer Rating: 4.4
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
 ### Product: Teal Anarkali Gown
@@ -315,13 +52,17 @@ This document lists all live products available in stock at AKKI LATEST COLLECTI
 - Subcategory: Anarkali Dress
 - Selling Price: Rs. 3,100
 - Description: Floor-length anarkali for festive wear
+- Discount: 35%
+- Customer Rating: 4.3
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
-### Product: Orange Summer Maxi Dress
+### Product: Summer Maxi Dress
 - Category: Dress
 - Subcategory: Maxi Dress
 - Selling Price: Rs. 1,750
-- Description: Breezy orange maxi dress
+- Description: Breezy pink maxi dress
+- Discount: 35%
+- Customer Rating: 4.2
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
 ### Product: Golden Sequin Dress
@@ -329,50 +70,24 @@ This document lists all live products available in stock at AKKI LATEST COLLECTI
 - Subcategory: Party Dress
 - Selling Price: Rs. 4,200
 - Description: Party wear sequin dress
+- Discount: 35%
+- Customer Rating: 4.1
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
-### Product: Brown Tussar Silk Saree
-- Category: Saree
-- Subcategory: Tussar Silk Saree
-- Selling Price: Rs. 21,500
-- Description: Tribal motif raw silk saree
+### Product: Embroidered Punjabi Suit
+- Category: Dress
+- Subcategory: Punjabi Suit
+- Selling Price: Rs. 3,200
+- Description: Black punjabi suit with yellow embroidered
+- Discount: 35%
+- Customer Rating: 4.8
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
 
-### Product: Cream Art Silk Saree
-- Category: Saree
-- Subcategory: Art Silk Saree
-- Selling Price: Rs. 1,500
-- Description: Budget-friendly silk saree
+### Product: Green Anarkali
+- Category: Dress
+- Subcategory: Anarkali Dress
+- Selling Price: Rs. 2,990
+- Description: Floor-length ethnic green anarkali dress
+- Discount: 35%
+- Customer Rating: 4.7
 - Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Gorgette SareesCollection
-- Category: Saree
-- Subcategory: AKKI COTTON Saree
-- Selling Price: Rs. 1,200
-- Description: Latest Cotton Saree Collection
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Cotton dress with chiffon duppata
-- Category: Cotton Dress
-- Subcategory: Chiffon Duppata
-- Selling Price: Rs. 1,100
-- Description: Cotton
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
-### Product: Mangalagiri Pattu Sarees
-- Category: Saree
-- Subcategory: Pattu Saree
-- Selling Price: Rs. 12,500
-- Description: Experience timeless elegance with this exquisitely crafted Pattu saree, a true celebration of India’s rich weaving heritage. Meticulously woven from premium quality pure silk, this saree showcases a natural sheen and luxurious texture that instantly elevates your presence. The smooth and soft fabric drapes beautifully, offering unmatched comfort while maintaining a regal appearance throughout the day.
-
-The saree is adorned with intricate zari work, woven using traditional techniques passed down through generations of skilled artisans. The finely detailed motifs reflect cultural artistry and precision, enhancing the saree’s grandeur. Each design element is thoughtfully placed to create a harmonious balance between tradition and contemporary elegance. The shimmering zari borders add a majestic touch, framing the saree with sophistication and grace.
-
-The vibrant color palette enhances the richness of the silk, making it suitable for both day and evening wear. The hues are carefully selected to remain timeless while complementing a wide range of skin tones. The saree retains its brilliance over time, making it a valuable addition to your ethnic wardrobe. The contrasting pallu features elaborate patterns that add depth and visual appeal, making every drape look stunning from every angle.
-
-Perfect for weddings, festive celebrations, religious ceremonies, and grand occasions, this Pattu saree symbolizes luxury and cultural pride. It is an ideal choice for brides, wedding guests, and women who appreciate classic elegance with a royal charm. Pair it with traditional gold jewelry or antique accessories to enhance its ethnic appeal, or style it with modern statement pieces for a contemporary twist.
-
-The durability of the silk ensures that this saree remains a cherished heirloom for years to come. With proper care, it maintains its texture, color, and sheen, allowing it to be passed down through generations. The breathable nature of pure silk ensures comfort even during long hours of wear, making it both beautiful and practical.
-
-This Pattu saree is more than just an outfit—it is a reflection of heritage, craftsmanship, and timeless beauty. Whether worn for a special occasion or treasured as a collectible piece, it embodies grace, tradition, and sophistication. Embrace the richness of silk and the elegance of tradition with this classic Pattu saree, designed to make every moment memorable.
-- Stock Status: In Stock (Ready to dispatch with 100% Free Shipping)
-
